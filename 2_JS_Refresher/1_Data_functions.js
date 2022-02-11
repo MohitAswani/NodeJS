@@ -25,6 +25,7 @@ const add=(a,b)=>a+b;
 // if we only have one argument then we remove the paranthesis
 const addOne=a=>a+1;
 
+// for no argument we need the paranthesis
 const addRandom=()=>1+2;
 
 console.log(addRandom())

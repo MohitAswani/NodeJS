@@ -8,4 +8,4 @@ setTimeout(()=>{
 console.log('Hello!');
 console.log('Hi!');
 
-// Async code is fine but issues arise when there multiple async code which depend on each other.
+// Async code is fine but issues arise when there are multiple async parts of a code which depend on each other.

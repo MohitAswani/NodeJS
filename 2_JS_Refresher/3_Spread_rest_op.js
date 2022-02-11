@@ -6,11 +6,11 @@ const person = {
 
 const hobbies=['Coding','Coking','Sports'];
 
-// const copiedArray=hobbies.slice(); // this will simply copy the entire array hobbires
+// const copiedArray=hobbies.slice(); // this will simply copy the entire array hobbies
 
 // const copiedArray=[hobbies]; // this only creates a nested array with hobbies as the new element.
 
-const copiedArray=[...hobbies]; // this is a spread operator this. This operator pulls out all the properties and objects of the object/array after the operator and puts it to the variable it is assigned to. 
+const copiedArray=[...hobbies]; // this is a spread operator. This operator pulls out all the properties and objects of the object/array after the operator and puts it to the variable it is assigned to. 
 
 const copiedPerson={...person} // spread operator
 
