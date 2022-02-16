@@ -28,4 +28,40 @@
 
 * <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers">Response headers</a>
 
-* Following explains the concept of streams and buffers : ![](C:/CODING/Web/NodeJS/3_NodeJS_Intro/2022-02-16-08-34-01.png)
+* Following explains the concept of streams and buffers : 
+
+
+## Basic working of NodeJS:
+
+![](2022-02-16-13-29-00.png)
+
+* In JS there is only one JS thread which executes the JS code.
+
+* So whenever the code execution starts the event loop starts and this event loop will handle all the event callbacks using the javascript thread.
+
+* But all the async code including file system, database and api (anything that can block the code) are handled by the worker pool. They do all the heavy lifting and run on different threads. 
+
+* After the worker pool are done doing their tasks they trigger the callbacks and the it is executed on the event loop which runs on a single javascript thread.
+
+## Event loop:
+
+![](2022-02-16-13-42-43.png)
+
+* In a new iteration of an event loop it will first check for the timer callbacks .i.e. all the callback associated with setTimeout and setInterval functions.
+
+* Then it executed the I/O related pending callbacks which are the callback left from the last iteration of the event loop.
+
+* After the pending callbacks it goes to poll which is a phase where it searches for new I/O related events and executes their callbacks. 
+
+* In poll phase the event loop can also defer the execution of a particular callback and add it to pending callbacks.
+
+* Also in the poll phase it can jump to execute the time callbacks.
+
+* After the poll it goes to the check phase where it execute setImmediate() callbacks. 
+
+* At last it executes the close callbacks which executes all 'close' event callbacks.
+
+* After this if there are no event listener or (ref=0 ref is counter of event listeners) it might call process.exit .
+
+* When we create a server using createServer function there always is one event listener hence it will never exit the event loop automatically.
+
