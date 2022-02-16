@@ -27,3 +27,5 @@
 ## Requests : 
 
 * <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers">Response headers</a>
+
+* Following explains the concept of streams and buffers : ![](C:/CODING/Web/NodeJS/3_NodeJS_Intro/2022-02-16-08-34-01.png)

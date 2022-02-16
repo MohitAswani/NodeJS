@@ -17,10 +17,10 @@ setTimeout(()=>{
     fetchData()
     .then(text=>{
         console.log(text);
-        return fetchData();
+        return fetchData();   // this is what is leading to the next fetching of data 
         // then will attach the callback we define inside it for resolve or reject of a promise
     })
-    .then(text=>{
+    .then(text=>{             // this callback attaches itself to fetchData() returned by the above then
         console.log(text);
         return fetchData();
     });

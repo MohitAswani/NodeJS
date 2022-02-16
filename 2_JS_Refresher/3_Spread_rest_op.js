@@ -23,7 +23,7 @@ const toArray=(arg1,arg2,arg3)=>{
     return [arg1,arg2,arg3];
 };
 
-console.log(toArray(1,2,3,4));
+console.log(toArray(1,2,3,4));  // this will just ignore the last element
 
 // the below function used the rest operator ('...') to take any number of arguments and return the output
 const toArrayWithRest=(...args)=>{

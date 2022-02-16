@@ -41,6 +41,7 @@ const server=http.createServer((req,res)=>{
     res.write('</html>');
     res.end();  // this will tell node that this is the end of our request write
     // res.write(); // this will give error
+    
     // we can also see this response from the network tag of inspect
 
 
