@@ -26,7 +26,7 @@ const requestHandler=(req,res)=>{
         return req.on('end', () => {
             const parshedBody = Buffer.concat(body).toString();
             const message = parshedBody.split('=')[1];
-            fs.writeFile('message.txt', message, (error) => {
+            fs.writeFileSync('message.txt', message, (error) => {
                 res.writeHead(302, { 'Location': '/', });
                 return res.end();
             });
