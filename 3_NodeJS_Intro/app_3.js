@@ -35,7 +35,7 @@ const server = http.createServer((req, res) => {
             // to solve this issue we must add a return to the event listener.
         });
 
-        // the below code will execute after the above event listener that is because the above event listener will execute only after event occurs.
+        // the below code will execute before the above event listener that is because the above event listener will execute only after event occurs.
 
         // And also even though the response is sent , the event listenerss still remains active.
 

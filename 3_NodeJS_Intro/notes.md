@@ -30,6 +30,8 @@
 
 * Following explains the concept of streams and buffers : 
 
+    ![](2022-02-19-07-19-10.png)
+
 
 ## Basic working of NodeJS:
 

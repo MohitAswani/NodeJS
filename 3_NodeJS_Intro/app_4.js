@@ -37,9 +37,7 @@ const server = http.createServer((req, res) => {
 
             // Also writeFile function takes in a callback which will be called when the function is done. And it also takes in an argument error which can be used to show the error which has occured.
 
-
-
-
+            
             // fs.writeFileSync('message.txt', message);
 
             fs.writeFile('message.txt', message, (error) => {

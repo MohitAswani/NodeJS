@@ -36,7 +36,7 @@ const server = http.createServer((req, res) => {
 
         // To register the event listener we use the on method. And we listener to the data event.
 
-        // data event is fired whenever a new chunk is ready to be read. And in the on method we also need to add a function which will be executed for every event.
+        // A data event is fired whenever a new chunk is ready to be read. And in the on method we also need to add a function which will be executed for every event.
 
         // the on event listener will keep on executing until all the chunks of the data are read.
 
@@ -47,23 +47,23 @@ const server = http.createServer((req, res) => {
             body.push(chunk);  // so we add all the chunks in an array of chunks
         });
 
-        // end event is fired once all the incoming chunks have been parsed.
+        // An end event is fired once all the incoming chunks have been parsed.
 
         req.on('end', () => {
 
-            // to interact with all these chunks we need to buffer and concat all the chunks and convert them to string.
+            // to interact with all these chunks we need a buffer and using which we concat all the chunks and convert them to string.
 
-            const parshedBody = Buffer.concat(body).toString();
+            const parsedBody = Buffer.concat(body).toString();
             
 
             // then we store the message after = in a variable and push it to our file.
-            const message = parshedBody.split('=')[1];
+            const message = parsedBody.split('=')[1];
 
             // fs.writeFile('message.txt','DUMMY');
             fs.writeFileSync('message.txt', message);    // we use this to write to the file
         });  
 
-        res.writeHead(302, { 'Location': '/', });     // here we are writing some data to the headers. Status code '302' is used for redirection and the send object with write there data to the headers.
+        res.writeHead(302, { 'Location': '/', });     // here we are writing some data to the headers. Status code '302' is used for redirection and the sent object will write data to the headers.
 
         return res.end();
     }

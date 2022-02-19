@@ -6,7 +6,7 @@ console.log(routes.some_text);
 server.listen(3000);
 // to add npm to our package we use npm init
 
-// we can add some command to perform different operations by adding them to scripts in our    package.json file 
+// we can add some command to perform different operations by adding them to scripts in our  package.json file 
 
 // for already defined special commands we can just 'npm cmd' 
 
