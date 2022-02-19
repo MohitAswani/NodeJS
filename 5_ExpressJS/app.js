@@ -11,7 +11,7 @@ const app=express();  // this will instialize an object which is used to create 
 
 // req and res are same with some extra features. 
 
-// next is actually a function which will be passed to the function inside use by express js. Next has to be executed to allow to allow the request to travel to the next middleware.
+// next is actually a function which will be passed to the function inside use by express js. Next has to be executed to allow the request to travel to the next middleware.
 
 /*
 
@@ -50,7 +50,7 @@ app.use('/',(req,res,next)=>{
 
 // by adding a path to our use function we can make the request return response only for that paths which start with that.
 
-// for example the below request will return response for all request starting with '/product'.
+// for example the below request will return response for all request starting with '/add-product'.
 
 // also we need to add it before request handler for '/' as the code run from top to bottom and it will return the response if we write the one for '/' first.
 
