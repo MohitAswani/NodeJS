@@ -1,7 +1,10 @@
-const http=require('http');
+const path=require('path');
 
 const express=require('express');
 const bodyParser=require('body-parser'); 
+
+const adminRoutes=require('./routes/admin')  // importing admin routes.
+const shopRoutes=require('./routes/shop');   // importing shop routes.
 
 const app=express();  // this will instialize an object which is used to create an express application.
 
@@ -37,16 +40,15 @@ app.use((req,res,next)=>{
 
 // this function will not parse all kinds of bodies but will parse bodies which are send through the form.
 
-app.use(bodyParser.urlencoded());  
+app.use(bodyParser.urlencoded({extended:true}));  
 
+// express prevent the user from directly accessing the files. 
 
+// Hence when we link our css file with the html file we express cant send it.
 
+// To do that we need to pass the path to the folder which we want to serve statically  so basically a folder which we want to grant read access to.
 
-
-    
-app.use('/',(req,res,next)=>{
-    next();
-});
+app.use(express.static(path.join(__dirname,'public')));
 
 // by adding a path to our use function we can make the request return response only for that paths which start with that.
 
@@ -55,6 +57,10 @@ app.use('/',(req,res,next)=>{
 // also we need to add it before request handler for '/' as the code run from top to bottom and it will return the response if we write the one for '/' first.
 
 // IF WE ARE SENDING A RESPONSE WE SHOULD NOT CALL next().
+
+/*
+
+WE HAVE WRITTEN THE CODE FOR THESE TWO ROUTES IN ADMIN.JS.
 
 app.use('/add-product',(req,res,next)=>{
 
@@ -85,6 +91,25 @@ app.post('/product',(req,res,next)=>{
     
 });
 
+
+
+*/
+
+
+// instead of defining the routes here we add the routes in admin.js and just import and add them to the express app.
+
+// also the order matters.
+
+// when we add a path in the below function express will only filter those requests starting with this path. Also all the urls inside adminRoutes will get added with '/admin' path except the html code. 
+
+// hence this mechanism allows us to put a common starting segment for our path which all routes in a given file use to outsource that into this app.js file so that we dont have to repeat it for all the routes in adminRoutes.
+
+app.use('/admin',adminRoutes);
+
+/*
+
+WE HAVE WRITTEN THE CODE FOR THESE TWO ROUTES IN SHOP.JS.
+
 app.use('/',(req,res,next)=>{
 
     // response.send allows us to send a response and allows us to attach a body which is of type any.
@@ -94,10 +119,27 @@ app.use('/',(req,res,next)=>{
     res.send('<h1>Hello can you hear me?</h1>'); 
 });
 
+*/
+
+// also if we use get in '/' routes it will do exact matching and will only return the result for '/' and nothing else and then the order of adding the routes wont matter.
+
+
+app.use(shopRoutes);
+
+// For error 404 we do the following :
+
+// we set a default request handle where we set the status code to 404.
+
+app.use((req,res,next)=>{
+    res.status(404).sendFile(path.join(__dirname,'views','error.html'));
+});
+
+
 // const server=http.createServer(app);
 // server.listen(3000);
 
 // Instead of writing the above code to create a server we can directly write app.listen to create that server.
+
 
 app.listen(3000);
 
