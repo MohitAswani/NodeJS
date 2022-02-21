@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 // express prevent the user from directly accessing the files. 
 
-// Hence when we link our css file with the html file we express cant send it.
+// Hence when we link our css file with the html file express cant send it.
 
 // To do that we need to pass the path to the folder which we want to serve statically  so basically a folder which we want to grant read access to.
 
