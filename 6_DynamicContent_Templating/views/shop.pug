@@ -1,0 +1,33 @@
+<!-- 
+If we type html and then 5 we get a pug structure. 
+
+It contains normal html tag but not in that format.
+
+Pug eventually will compile to normal html.
+
+INDENTATION MATTER IN HTML AND TAGS ARE SEPERATED BASED ON INDENTATION.
+
+To replicate html elements in pug we use following syntices :
+
+tag.class_name for tag with a particular class_name 
+
+-->
+
+
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Shop
+        link(rel="stylesheet", href="/css/main.css")
+    body 
+        header.main-header 
+            nav.main-header_nav
+                ul.main-header_item-list
+                    li.main-header_item
+                        a.active(href="/") Shop 
+                    li.main-header_item
+                        a.active(href="/admin/add-product") Add product
+                         
