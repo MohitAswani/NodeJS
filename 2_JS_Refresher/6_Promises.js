@@ -7,7 +7,7 @@ const fetchData=()=>{
 
     // resolve is for successful callback and reject is for failure.
 
-    // when we use libraries we dont have to write the promise it is already made we just need to attach the callback inside then.
+    // when we use libraries we dont have to write the promise it is already made we just need to attach the callback inside them.
 
     return promise;
     

@@ -2,7 +2,8 @@
 // var age=20;
 // var isDumDum=true;
 
-// instead of using var to declare variables we use let. Also to declare the variables which do not change we use const.
+// instead of using var to declare variables we use let due to memory segmentation. Also to declare the variables which do not change we use const.
+
 const my_name='Mohit';
 let age=20;
 const isDumDum=true;

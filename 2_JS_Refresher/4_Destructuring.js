@@ -17,7 +17,7 @@ const printName2=({name,age,greet})=>{
 
 printName2(person);
 
-const {name,age} = person; // this will store the person.name to name and person.age to age using object destructuring. Note that the variables where we store the properties in should have the same as the property of that object.
+const {name,age} = person; // this will store the person.name to name and person.age to age using object destructuring. Note that the variables where we store the properties in should have the same name as the property of that object.
 
 console.log(name,age);
 

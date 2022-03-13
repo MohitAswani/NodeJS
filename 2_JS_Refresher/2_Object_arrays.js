@@ -24,9 +24,10 @@ console.log(hobbies.map(hobby => 'Hobby: ' + hobby));
 
 console.log(hobbies);
 
-hobbies.forEach(hobby => console.log(hobby))
+hobbies.forEach(hobby => console.log(hobby));
 
 // Even though hobbies is const we can add elements to it since it is a reference type and it only contains the reference to the array / the address of that array. This reference or the address will not change if we change the array.
-hobbies.push("Coding")
 
-console.log(hobbies)
+hobbies.push("Coding");
+
+console.log(hobbies);

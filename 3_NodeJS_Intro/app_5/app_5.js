@@ -6,7 +6,7 @@ const http = require('http');
 
 // Then we export the function to this file.
 
-// When we require this node will go and look for a file named routes in the same directory. And in that file it will look for module exports and see what is registered in there. And the routes const will hold the handler.
+// When we require that file node will go and look for a file named routes in the same directory. And in that file it will look for module exports and see what is registered in there. And the routes const will hold the handler.
 
 const routes=require('./routes');
 
