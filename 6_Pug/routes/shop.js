@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
 
     // to render the template we need to tell express to render it and it will automatically use pug to render the template.
 
-    res.render('shop',{prods:products,docTitle:'Shop from shop.js'});  // provided by express and it will use the default templating engine.
+    res.render('shop',{pageTitle:'Shop from shop.js',prods:products});  // provided by express and it will use the default templating engine.
 
     // also since we have provided a path to the folder containing the view, we don't to need to provide the path to the file we just need to write its name.
 

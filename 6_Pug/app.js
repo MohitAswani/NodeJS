@@ -33,7 +33,7 @@ app.use('/admin',adminRoutes.router);
 app.use(shopRoutes);
 
 app.use((req,res,next)=>{
-    res.status(404).render('error');
+    res.status(404).render('error',{pageTitle:'Page Not found'});
 });
 
 app.listen(3000);

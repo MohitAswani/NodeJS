@@ -35,6 +35,12 @@
 
 * Checkout the `main-layout.pug` and `error.pug` to see the use of layouts.
 
+* Also in pug we can use if/else statements as well as the for loop to perform different operations.
+
+* For example for setting the active class in add-product.pug we pass the path during rendering and use that to deside the class we want to make as active.
+
+* In this project we have used extends in add-product but not in shop.js to show the functionality of pug.
+
 
 
 
