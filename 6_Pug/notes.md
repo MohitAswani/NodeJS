@@ -19,7 +19,7 @@
 
 * ejs and pug have built in compatibility with express wheareas for handlerbars we use express-handlebars.
 
-## Adding a layout :
+## Pug (adding a layout) :
 
 * Instead of using the copying the same pug content we can just have a template layout and just plug our codes into it.
 
@@ -40,6 +40,18 @@
 * For example for setting the active class in add-product.pug we pass the path during rendering and use that to deside the class we want to make as active.
 
 * In this project we have used extends in add-product but not in shop.js to show the functionality of pug.
+
+## Handlebars :
+
+* Does not follow minimal HTML approach rather it follows normal HTML with some templating logic.
+
+* Since handlebar uses normal html we can just use the error.html code and add some custom templating code.
+
+* Also since we are already passing in code we don't need to change the JS files.
+
+* The way we pass the dynamic content doesn't change for templating engines.
+
+* To add dynamic content in handlebar template we use {{}}.
 
 
 

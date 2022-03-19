@@ -17,7 +17,7 @@ router.post('/product', (req, res, next) => {
                     price: req.body.price,
                     description: req.body.description,
                     image: req.body.image });
-    console.log(req.body);
+    console.log(products);
     res.redirect('/');
 });
 

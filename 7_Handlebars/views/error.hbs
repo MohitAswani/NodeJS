@@ -1,0 +1,31 @@
+<!-- 
+    
+Since handlebar uses normal html we can just use the error.html code and add some custom templating code.
+
+Also since we are already passing in code we don't need to change the JS files.
+
+The way we pass the dynamic content doesn't change for templating engines.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{pageTitle}}</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-header_nav">
+            <ul class="main-header_item-list">
+                <li class="main-header_item"><a href="/">Shop</a></li>
+                <li class="main-header_item"><a href="/admin/add-product">Add product</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Error 404</h1>
+</body>
+</html>
