@@ -17,21 +17,20 @@ const app=express();
 
 // also expressHbs is a function and it initialises the handlebar engine.
 
-app.engine('hbs',expressHbs());
+// Handlebars does support layouts but it works a bit differently than it did with pug.
 
-// to let express know we will be using pug we do that below declaration.
+// To use handlebar we need to configure it and to do that we need to pass in some options in the below statement.
 
-// in the below code we are setting a global configuration value using set in express.
+// So we can pass in the folder where our layouts live. The default value is layouts folder in views folder.
 
-// we use certain keywords to make express behave a certain way.
+// We can also set a default layout.
 
-// here we use view engine keyword which allows us to tell express that for any dynamic template we are trying to render use this engine we're registering here.
+// Also for the default layout we need to set the extenstion name.
 
-// views allows us to tell express where to find these dynamic views.
-
-// the below set cmd will not work all engines but since pug comes with built in support for pug hence we can use it.
-
-// app.set('view engine','pug');
+app.engine('hbs',
+    expressHbs({
+        layoutsDir:'views/layouts/',defaultLayout:'main-layout',
+        extName:'hbs'}));
 
 // the below code will set the engine to handlebar.
 

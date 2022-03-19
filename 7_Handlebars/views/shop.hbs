@@ -1,28 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{pageTitle}}</title>
-
-    <!-- For linking the css we need to pass the path to the css such that we are inside the css folder since we grant access to that folder through express. The request for the middleware is handled by the static middleware and it forwards the request to the public folder. -->
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-
-<body>
-    <header class="main-header">
-        <nav class="main-header_nav">
-            <ul class="main-header_item-list">
-                <li class="main-header_item"><a class="active" href="/">Shop</a></li>
-                <li class="main-header_item"><a href="/admin/add-product">Add product</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <!-- 
+<main>
+    <!-- 
             Following is an if helper and we write it in curly brackets.
             
             We also need to add a hashtag for special block statement. 
@@ -45,32 +22,29 @@
 
         -->
 
-        {{#if hasProducts}}
-            <div class="grid">
-                {{#each prods}}
-                    <article class="card product-item">
-                        <header class="card__header">
-                            <h1 class="product__title">{{this.title}}</h1>
-                        </header>
-                        <div class="card__image">
-                            <img src="{{this.image}}" alt="A Book">
-                        </div>
-                        <div class="card__content">
-                            <h2 class="product__price">{{this.price}}</h2>
-                            <p class="product__description">{{this.description}}
-                            </p>
-                        </div>
-                        <div class="card__actions">
-                            <button class="btn">Add to Cart</button>
-                        </div>
-                    </article>
-                {{/each}}
+    {{#if hasProducts}}
+    <div class="grid">
+        {{#each prods}}
+        <article class="card product-item">
+            <header class="card__header">
+                <h1 class="product__title">{{this.title}}</h1>
+            </header>
+            <div class="card__image">
+                <img src="{{this.image}}" alt="A Book">
             </div>
-        {{else}}
-        <h1>My products</h1>
-        <p>List of all the products.....</p>
-        {{/if}}
-    </main>
-</body>
-
-</html>
+            <div class="card__content">
+                <h2 class="product__price">{{this.price}}</h2>
+                <p class="product__description">{{this.description}}
+                </p>
+            </div>
+            <div class="card__actions">
+                <button class="btn">Add to Cart</button>
+            </div>
+        </article>
+        {{/each}}
+    </div>
+    {{else}}
+    <h1>My products</h1>
+    <p>List of all the products.....</p>
+    {{/if}}
+</main>

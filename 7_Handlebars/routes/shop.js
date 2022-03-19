@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
 
     // to render the template we need to tell express to render it and it will automatically use pug to render the template.
 
-    res.render('shop', { prods:products,pageTitle: 'Shop from shop.js',path:'/',hasProducts: products.length > 0 }); 
+    res.render('shop', { prods:products,pageTitle: 'Shop from shop.js',path:'/',hasProducts: products.length > 0 ,mainCSS:true,activeShop:true}); 
     
     // provided by express and it will use the default templating engine.
 
