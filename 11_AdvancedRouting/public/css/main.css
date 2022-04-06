@@ -9,6 +9,11 @@ body{
     padding: 0;
     font-family: 'Open Sans', sans-serif;
 }
+
+.centered{
+  text-align: center;
+}
+
 .main-header{
     width: 100%;
     height: 3.5rem;
@@ -52,7 +57,7 @@ main{
   left: 0;
   background: white;
   z-index: 10;
-  padding: 4rem 1rem 1rem 2rem;
+  padding: 2rem 1rem 1rem 2rem;
   transform: translateX(-100%);
   transition: transform 0.3s ease-out;
 }
@@ -148,6 +153,8 @@ main{
   }
   
   .card__actions {
+      display: flex;
+      justify-content: center;
       padding: 1rem;
       text-align: center;
   }
