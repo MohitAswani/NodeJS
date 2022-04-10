@@ -1,0 +1,18 @@
+<%- include('../includes/head.ejs') %> 
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main class="centered">
+        <h1><%= product.title %> </h1>
+        <hr>
+        <div>
+            <img src="<%= product.image %>" alt="<%= product.title %>">
+        </div>
+        <h2><%= product.price  %> </h2>
+        <p><%= product.description  %> </p>
+
+        <!-- The local variable in a loop is not automatically passed to an include file so we need to pass it explicitly. -->
+        <%- include('../includes/add-to-cart.ejs',{product:product}) %>
+    </main>
+<%- include('../includes/end.ejs') %>
