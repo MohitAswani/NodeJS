@@ -8,7 +8,7 @@ const errorController = require('./controllers/error');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
-const db = require('./util/database');  
+const sequelize = require('./util/database');  
 
 const app = express();
 
@@ -24,4 +24,13 @@ app.use(shopRoutes);
 
 app.use(errorController.getError);
 
-app.listen(3000);
+// To ensure that all the modal we created get transferred into tables or get a table that belongs to them whenver we start our application and if the table already exists, it will of course not override it by default though we can tell it to do so.
+
+// Sync is a special method and it has a look at all the models we defined by using sequelize define on the sequelize object hence its aware of all our models. So the sync function will sync our models to the database by creating the appropriate tables and relations.
+sequelize.sync()
+    .then(result=>{
+        app.listen(3000);
+    })
+    .catch(err=>{
+        console.log(err);
+    })

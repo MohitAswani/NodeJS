@@ -18,5 +18,14 @@
 
 * To install sequelize run `npm i --s sequelize`. TO USE SEQUELIZE WE ALSO NEED THE mysql2 package.
 
+* We call the `sequelize.sync()` method on our sequelize object to sync all our tables with the database.
 
-<!-- Continue with syncing JS definition to the database -->
+* Sequelize will create and run all the required queries for us.
+
+* Also if we define a modal `product` it will create a table `products` for us.
+
+* Also to create a table for a modal it runs CREATE TABLE IF NOT EXISTS.
+
+## Associations : 
+
+* 
