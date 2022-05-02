@@ -13,28 +13,19 @@ module.exports = class Cart {
 
     static addProduct(id, productPrice) {
 
-        // Fetch the previous cart 
-        // Analyze the cart => Find existing product
-        // Add new product / increase quantity.
-
-        // We get the index to the product if it exists
 
         const existingProductIndex = cart.products.findIndex(prod => prod.id === id);
         const existingProduct = cart.products[existingProductIndex];
         let updatedProduct;
 
-        // If the product already exists
 
         if (existingProduct) {
 
-            // Make a copy of the existing product.
             updatedProduct = { ...existingProduct };
 
-            // Increase its quantity
             updatedProduct.qty = updatedProduct.qty + 1;
             cart.products = [...cart.products];
 
-            // Update the element at that index.
             cart.products[existingProductIndex] = updatedProduct;
         }
         else {
@@ -42,7 +33,6 @@ module.exports = class Cart {
             cart.products = [...cart.products, updatedProduct]
         }
 
-        // Increase the total price
         cart.totalPrice = cart.totalPrice + +productPrice;
 
         fs.writeFile(p, JSON.stringify(cart), (err) => {

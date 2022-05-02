@@ -1,5 +1,5 @@
 {
-  "name": "13_Sequelize",
+  "name": "12_SQL",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -15,7 +15,6 @@
     "express": "^4.17.3",
     "express-handlebars": "^6.0.4",
     "mysql2": "^2.3.3",
-    "pug": "^3.0.2",
-    "sequelize": "^6.18.0"
+    "pug": "^3.0.2"
   }
 }
