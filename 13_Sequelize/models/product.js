@@ -1,33 +1,33 @@
-const db = require('../util/database');
+const Sequelize=require('sequelize'); // class/constructor function
 
-const cart = require('./cart');
+const sequelize=require('../util/database');
 
+// the first paramter in define function is the table name (the table name will be pluralized) and second paramater is a JS object which will list all of our fields in the object.
 
-module.exports = class Product {
-    constructor(id, title, price, description, image) {
-        this.id = id;
-        this.title = title
-        this.price = price
-        this.description = description
-        this.image = image
+const Product=sequelize.define('product',{
+    id:{
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
+        allowNull:false,
+        primaryKey:true
+    },
+    title: Sequelize.STRING,
+    price:{
+        type:Sequelize.DOUBLE,
+        allowNull:false
+    },
+    image:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },
+    description:{
+        type:Sequelize.STRING,
+        allowNull:false
     }
+});         
 
-    save() {
-        // to safely insert values and not face the issue of SQL injection which is an attack pattern where users can insert special data into your input fields in your webpage that runs as SQL queries.
-        // So we use '?' to insert the values and pass in those values as the second argument.
-        console.log(this.title, this.price, this.description, this.image);
-        return db.execute('INSERT INTO `products` (`title`, `price`, `description`, `image`) VALUES (?,?,?,?)', [this.title, this.price, this.description, this.image]);
-    }
+// defining a new model.
 
-    static fetchAll() {
-        return db.execute('SELECT * FROM products');
-    }
+// To add more options to the fields in a product refer to https://sequelize.org/docs/v6/core-concepts/model-basics/.
 
-    static findById(id) {
-        return db.execute('SELECT * FROM products WHERE products.id=?', [id]);
-    }
-
-    static deleteById(id) {
-        return db.execute('DELETE FROM products WHERE products.id=?',[id]);
-    }
-};
+module.exports=Product;
