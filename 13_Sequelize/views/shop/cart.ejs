@@ -18,6 +18,9 @@
                     </li>
                 <% }); %>  
             </ul> 
+            <form action="/create-order" method="post" style="display: flex;justify-content: center">
+                <button type="submit" class="btn">Checkout</button>
+            </form>
         <% } else { %>
             <h1>No products in the cart</h1>
         <% } %> 
