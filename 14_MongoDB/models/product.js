@@ -2,12 +2,13 @@ const mongodb = require('mongodb');
 const getDb = require('../util/database').getDb;
 
 class Product {
-    constructor(title, price, description, image, id) {
+    constructor(title, price, description, image, id, userId) {
         this.title = title;
         this.price = price;
         this.description = description;
         this.image = image;
-        this._id = id ? id : null;
+        this._id = id ? new mongodb.ObjectId(id) : null;
+        this.userId = userId;
     }
 
     save() {
@@ -57,7 +58,7 @@ class Product {
                 console.log(err);
             });
 
-        // will return a cursor which is an object provided by mongodb which allows us to go through our elements, our documents step by step (just like iterators).
+        // will return a cursor which is an object provided by mongodb which allows us to go through our elements, our documents step by step (just like iterators and it helps in pagination).
 
         // we use toArray to tell mongodb that we want all the documents at once and as an array.
 
@@ -68,10 +69,9 @@ class Product {
         const db = getDb();
 
         return db.collection('products')
-            .find({ _id: prodId })
-            .next()           // since it still giving us curson we will get the next object which is the first one.
+            .find({ _id: new mongodb.ObjectId(prodId) })
+            .next()           // since it still giving us cursor we will get the next object which is the first one.
             .then(product => {
-                console.log(product);
                 return product;
             })
             .catch(err => {
