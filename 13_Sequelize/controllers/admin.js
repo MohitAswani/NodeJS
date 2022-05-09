@@ -2,10 +2,6 @@ const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
 
-    // Now we only use edit-product to add product since we are using the same form for both.
-
-    // But we do not change the path in the below function since we want the rest of the behaviour to stay the same.
-
     res.render('admin/edit-product', {
         pageTitle: 'Add Product',
         path: '/admin/add-product',

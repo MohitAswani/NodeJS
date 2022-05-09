@@ -66,11 +66,11 @@ Product.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
 
 User.hasMany(Product);
 
-// Since we have already create product and user table to implement these relations we need to set the force:true in the sync method.
+// Since we have already created product and user table to implement these relations we need to set the force:true in the sync method.
 
 // Now there will be two tables and the product table will have a foreign key 'userId' which refrences the id of the user who added the product.
 
-// The below two statements will add userId to the card table which denotes the user to which the cart belongs.
+// The below two statements will add userId to the cart table which denotes the user to which the cart belongs. And user has a one to one relation with cart.
 
 User.hasOne(Cart);
 
@@ -86,6 +86,8 @@ Cart.belongsToMany(Product,{through:CartItem});
 
 Product.belongsToMany(Cart,{through:CartItem});
 
+// So for defining relations we need to write the two statements which define the nature of our relations.
+
 Order.belongsTo(User);
 
 User.hasMany(Order);
@@ -95,7 +97,7 @@ Order.belongsToMany(Product,{through:OrderItem});
 let fetchedUser;
 
 sequelize
-    // .sync({force:true})       // we will comment this out since our work is done and we do not want the database to again and again redefine our models
+    // .sync({force:true})       // this line will delete all the data and force sync the database with our updated models.
     .sync()
     .then(result=>{
         return User.findByPk(1);
@@ -122,7 +124,7 @@ sequelize
         return Promise.resolve(cart);
     })
     .then(cart=>{
-        app.listen(4000);
+        app.listen(3000);
     })
     .catch(err=>{
         console.log(err);

@@ -1,8 +1,8 @@
 # Sequelize
 
-* It is an object relational mapping library which simply means it does all the heavy lifting, all the SQL code behind the scenes for us and maps it into JS objects with convenience methods which we can call to execute the behind the scenes SQL code so that we never have to write SQL code on our own.
+* It is an object relational mapping library which simply means it does all the heavy lifting, writes all the SQL code behind the scenes for us and maps it into JS objects with convenience methods which we can call to execute the behind the scenes SQL code so that we never have to write SQL code on our own.
 
-* ![](2022-05-02-16-20-08.png) So it the above example the sequelize with take this object and create a table for us and set up relations for that table. 
+* ![](2022-05-02-16-20-08.png) So in the above example sequelize will take this object and create a table for us and set up relations for that table. 
 
 * Also whenever we create a new user as in the above example , we can simply call a method on that user js object and sequelize executes SQL query that is requirred.
 
