@@ -6,7 +6,7 @@
 
 ## SQL :
 
-* SQL database thinks in terms of tables.
+* SQL database think in terms of tables.
 
 * And each table has fields/columns. We fill in the data for these fields called rows.
 
@@ -30,13 +30,13 @@
 
 * In NoSQL tables are called collections but we can think of them as tables , or their equivalent.
 
-* In collections we don't have records rather we have collections.
+* In collections we don't have records/rows rather we have collections.
 
 * NoSQL doesn't have strict rules like SQL.
 
-* ![](2022-04-09-17-53-20.png).
+* ![](2022-04-09-17-53-20.png)
 
-* In NoSQL we dont have relation.
+* In NoSQL we don't have relation.
 
 
 # SQL vs NoSQL :

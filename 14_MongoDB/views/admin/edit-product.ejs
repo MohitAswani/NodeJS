@@ -30,7 +30,7 @@
                                 value="<% if(editing) { %><%= product.image %><% } %>">
                         </div>
 
-                        <input type="hidden" name="id" id="id" value="<%= product.id %> ">
+                        <input type="hidden" name="id" id="id" value="<%= product._id %> ">
 
                         <button type="submit">
                                 <% if(editing) {%>Update product<% }else { %> Add Product <% } %>

@@ -8,7 +8,7 @@ const errorController = require('./controllers/error');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
-const db = require('./util/database');  // will give the pool which allows us to use the connection in it.
+const db = require('./util/database');  // exporting this will give us the pool which allows us to use the connections in it.
 
 const app = express();
 
