@@ -1,80 +1,36 @@
-const mongodb = require('mongodb');
-const getDb = require('../util/database').getDb;
+const mongoose=require('mongoose');
 
-class Product {
-    constructor(title, price, description, image, id, userId) {
-        this.title = title;
-        this.price = price;
-        this.description = description;
-        this.image = image;
-        this._id = id ? new mongodb.ObjectId(id) : null;
-        this.userId = userId;
+const Schema=mongoose.Schema;  // this schema constructor allows us to create new schemas.
+
+// The following is how we define a mongoose schema, we pass in our properties to the schema constructor.
+
+// Even though mongodb is schemaless we define a structure for the data we work with and hence we get the advantage of focusing on our data but for that it need to know how our data looks like. 
+
+// We can still deviate from this without setting requirred field.
+
+const productSchema = new Schema({
+    title:{
+        type:String,
+        required:true
+    },   
+    price:{
+        type:Number,
+        required:true
+    },
+    description:{
+        type:String,
+        required:true
+    },
+    image:{
+        type:String,
+        required:true
     }
+});
 
-    save() {
-        const db = getDb();
-        let dbOp;
+// Model is a function we call and it is important for mongoose to connect a schema with a name.
 
-        if (this._id) {
-            console.log(this._id);
-            dbOp = db
-                .collection('products')
-                .updateOne({ _id: this._id }, { $set: this });  
-        }
-        else {
-            dbOp = db
-                .collection('products')
-                .insertOne(this);
-        }
+// This model is what we will work with.
 
-        return dbOp
-            .then(result => {
-                console.log(result);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
+// Mongoose takes the model name , makes it lowercase and pluralizes it.
 
-    static fetchAll() {
-        const db = getDb();
-
-        return db.collection('products')
-            .find()
-            .toArray()
-            .then(products => {
-                return products;
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
-    static findById(prodId) {
-        const db = getDb();
-
-        return db.collection('products')
-            .find({ _id: new mongodb.ObjectId(prodId) })
-            .next()      
-            .then(product => {
-                return product;
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
-
-    static deleteById(prodId) {
-        const db = getDb();
-
-        return db.collection('products')
-            .deleteOne({ _id: new mongodb.ObjectId(prodId) })
-            .then(result => {
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
-}
-
-module.exports = Product;
+module.exports=mongoose.model('Product',productSchema);

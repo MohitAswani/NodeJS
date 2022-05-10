@@ -13,10 +13,10 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
     const { title, price, description, image } = req.body;
 
-    const product = new Product(title, price, description, image, null, req.user._id);
+    const product = new Product({ title: title, price: price, description: description, image: image });
 
     product
-        .save()
+        .save()  // provided by mongoose , technically it doesn't return back a promsise  but we can call then method on it.
         .then(result => {
             console.log('CREATED PRODUCT');
             res.redirect('/admin/products');
@@ -62,9 +62,14 @@ exports.postEditProduct = (req, res, next) => {
     description = description.trim();
     image = image.trim();
 
-    const product = new Product(title, price, description, image, id);
-    product
-        .save()
+    Product.findById(id)
+        .then(product => {
+            product.title = title;
+            product.price = price;
+            product.description = description;
+            product.image = image;
+            return product.save();
+        })
         .then(result => {
             console.log('UPDATED PRODUCT');
             res.redirect('/admin/products');
@@ -76,7 +81,7 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
 
-    Product.fetchAll()
+    Product.find()
         .then(products => {
             res.render('admin/products', {
                 prods: products,
@@ -95,7 +100,7 @@ exports.postDeleteProduct = (req, res, next) => {
     let { id } = req.body;
     id = id.trim();
 
-    Product.deleteById(id)
+    Product.deleteOne({_id:new mongodb.ObjectId(id)})
         .then(() => {
             console.log("PRODUCT DELETED");
             res.redirect('/admin/products');
