@@ -13,7 +13,13 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
     const { title, price, description, image } = req.body;
 
-    const product = new Product({ title: title, price: price, description: description, image: image });
+    const product = new Product({
+        title: title,
+        price: price,
+        description: description,
+        image: image,
+        userId: req.user._id
+    });
 
     product
         .save()  // provided by mongoose , technically it doesn't return back a promsise  but we can call then method on it.
@@ -81,7 +87,25 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
 
+    // Populate allows us to tell mongoose to populate a certain field with all the details and not just the id.
+
+    // Populate takes in the path which we want to populate and we can also populate nested paths.
+
+    // Here we just populate the userId.
+
+    // Select allows us to define which fields we want to select or unselect, so which field should actually be retrieved from the database.
+
+    // To retrieve the properties using select we just need to pass in the name of the fields we want to retrieve and to exclude a specific field just add '-' before it.
+
+    // Id will always be retrieved unless we mention otherwise.
+
+    // Also we can pass in the fields we want populate to retrieve by just mentioning them as the second argument.
+
+    // So we can have selective retrieval in mongoose using select and populate.
+    
     Product.find()
+        // .select('title price image description -_id')
+        .populate('userId', 'name')
         .then(products => {
             res.render('admin/products', {
                 prods: products,
@@ -100,7 +124,7 @@ exports.postDeleteProduct = (req, res, next) => {
     let { id } = req.body;
     id = id.trim();
 
-    Product.deleteOne({_id:new mongodb.ObjectId(id)})
+    Product.deleteOne({ _id: new mongodb.ObjectId(id) })
         .then(() => {
             console.log("PRODUCT DELETED");
             res.redirect('/admin/products');
