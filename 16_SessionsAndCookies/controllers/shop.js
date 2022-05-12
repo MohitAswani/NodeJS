@@ -8,7 +8,7 @@ exports.getProducts = (req, res, next) => {
                 prods: products,
                 pageTitle: 'All products',
                 path: '/products',
-                isAuth:req.isLoggedIn
+                isAuth: req.session.isAuth
             });
         })
         .catch(err => {
@@ -24,7 +24,7 @@ exports.getProduct = (req, res, next) => {
                 pageTitle: product.title,
                 path: '/products',
                 product: product,
-                isAuth:req.isLoggedIn
+                isAuth: req.session.isAuth
             });
         }).catch((err) => {
             console.log(err);
@@ -38,7 +38,7 @@ exports.getIndex = (req, res, next) => {
                 prods: products,
                 pageTitle: 'Shop from shop.js',
                 path: '/',
-                isAuth:req.isLoggedIn
+                isAuth: req.session.isAuth
             });
         })
         .catch(err => {
@@ -54,7 +54,7 @@ exports.getCart = (req, res, next) => {
                 path: '/cart',
                 pageTitle: 'Your Cart',
                 products: user.cart.items,
-                isAuth:req.isLoggedIn
+                isAuth: req.session.isAuth
             })
         })
         .catch(err => {
@@ -84,7 +84,7 @@ exports.getOrders = (req, res, next) => {
                 path: '/orders',
                 pageTitle: 'Your orders',
                 orders: orders,
-                isAuth:req.isLoggedIn
+                isAuth: req.session.isAuth
             });
         })
         .catch(err => {

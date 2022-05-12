@@ -9,14 +9,14 @@
             <li class="main-header_item">
                 <a class="<%=path==='/products' ?'active':'' %>" href="/products">Products</a>
             </li>
-            <li class="main-header_item">
-                <a class="<%=path==='/cart' ?'active':'' %>" href="/cart">Cart</a>
-            </li>
-            <li class="main-header_item">
-                <a class="<%=path==='/orders' ?'active':'' %>" href="/orders">Orders</a>
-            </li>
             
             <% if(isAuth) { %> 
+                <li class="main-header_item">
+                    <a class="<%=path==='/cart' ?'active':'' %>" href="/cart">Cart</a>
+                </li>
+                <li class="main-header_item">
+                    <a class="<%=path==='/orders' ?'active':'' %>" href="/orders">Orders</a>
+                </li>
                 <li class="main-header_item">
                     <a class="<%=path==='/admin/add-product' ?'active':'' %>" href="/admin/add-product">Add product
                     </a>
@@ -28,9 +28,17 @@
             <% } %> 
         </ul>
         <ul class="main-header_item-list">
-            <li class="main-header_item">
-                <a class="<%=path==='/cart' ?'active':'' %>" href="/login">Login</a>
-            </li>
+            <% if(!isAuth) { %> 
+                <li class="main-header_item">
+                    <a class="<%=path==='/cart' ?'active':'' %>" href="/login">Login</a>
+                </li>
+            <% } else { %> 
+                <li class="main-header_item">
+                    <form action="/logout" method="post">
+                        <button class="btn" style="background: none;" type="submit">Logout</button>
+                    </form>
+                </li>
+            <% } %> 
         </ul>
     </nav>
 </header>
