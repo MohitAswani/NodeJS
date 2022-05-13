@@ -21,7 +21,6 @@ class Product {
         let dbOp;
 
         if (this._id) {
-            console.log(this._id);
             dbOp = db
                 .collection('products')
                 .updateOne({ _id: this._id }, { $set: this });  // will simply instruct mongo to set the key values in the document to these values.

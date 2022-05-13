@@ -26,7 +26,7 @@ app.use((req, res, next) => {
     User.findById('6279177a13fd9996d409bcf4')
         .then(user => {
 
-            // req.user = user;   // in mongo we only get the data from the user object and methods aren't stored there.
+            // req.user = user;   // in mongo (not in mongoose) we only get the data from the user object and methods aren't stored there.
             
             // To create an object with which we can interact we create js object using the data provided by mongo.
 
