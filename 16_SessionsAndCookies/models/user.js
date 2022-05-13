@@ -41,7 +41,7 @@ userSchema.methods.addToCart = function (product) {
     }
     else {
         updatedCartItems.push({
-            productId: product._id,   // mongoose will automatically wrap it in object id.
+            productId: product._id,   
             quantity: newQuantity
         });
     }
@@ -51,7 +51,7 @@ userSchema.methods.addToCart = function (product) {
     };
 
     this.cart = updatedCart;
-    return this.save();    // save method will save the changes made to the object.
+    return this.save();    
 }
 
 userSchema.methods.deleteFromCart = function (product) {

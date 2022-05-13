@@ -16,7 +16,7 @@ exports.getLogin = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
 
-    // This will not work since once we send the response the req is finished and won't affect the futures requests.
+    // Setting isLoggedIn in our request will not work since once we send the response the req is finished and won't affect the futures requests.
 
     // This data is lost after the response.
 
@@ -49,7 +49,7 @@ exports.postLogin = (req, res, next) => {
     //     httponly: true
     // });
 
-    // This session will be stored in memory (at server side) by default and will use the session id cookie to identify the user.
+    // The session will be stored in memory (at server side) by default and will use the session id cookie to identify the user.
 
     // This session will be different for different users. And it needs the session id to identify the user but the sensitive info is stored on the server and not the frontside.
 

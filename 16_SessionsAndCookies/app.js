@@ -20,7 +20,7 @@ const app = express();
 
 // To the store we pass in some options which tell it how and where to store our sessions.
 
-// url : is the connections url.
+// uri : is the connections uri.
 
 // collection : is the name of the connection where it need to store the sessions.
 
@@ -32,13 +32,17 @@ const store = new MongoDBStore({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser());    // used to parse cookies easily
 
 // secret will be used to sign the hash which secretly stores our ID in the cookie.
 
 // resave : false means that the session will not be saved on every request that is done but only if something changed in the session.
 
 // saveUninitialized : will make sure that no session get saved for a request where it doesn't need to be saved 
+
+// cookie : will be the cookie which will store our session id.
+
+// store : will be the store which will store our sessions.
 
 // We also configure the session cookie in here .
 

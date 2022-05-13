@@ -23,7 +23,7 @@ exports.postAddProduct = (req, res, next) => {
     });
 
     product
-        .save()  // provided by mongoose , technically it doesn't return back a promsise  but we can call then method on it.
+        .save()  
         .then(result => {
             console.log('CREATED PRODUCT');
             res.redirect('/admin/products');

@@ -40,7 +40,7 @@
 
 * Now we do not match this by ip address or anything like that because they can be spoofed.
 
-*Instead we will use a cookie where we will store the ID of the session. And we cannot change this id from the frontend becuase actually the value we store will not be the ID but the hashed id. And only the server can confirm that it has not been fiddled with.
+* Instead we will use a cookie where we will store the ID of the session. And we cannot change this id from the frontend because actually the value we store will not be the ID but the hashed id. And only the server can confirm that it has not been fiddled with.
 
 * So this is a secure way because we store the id in a hashed way. 
 
