@@ -4,9 +4,9 @@ const Schema=mongoose.Schema;  // this schema constructor allows us to create ne
 
 // The following is how we define a mongoose schema, we pass in our properties to the schema constructor.
 
-// Even though mongodb is schemaless we define a structure for the data we work with and hence we get the advantage of focusing on our data but for that it need to know how our data looks like. 
+// Even though mongodb is schemaless we define a structure for the data we work with and hence we get the advantage of focusing on our data but for that it needs to know how our data looks like. 
 
-// We can still deviate from this without setting requirred field.
+// We can still deviate from this except that we need to set the fields which are requirred.
 
 const productSchema = new Schema({
     title:{

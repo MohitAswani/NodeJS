@@ -65,29 +65,7 @@ userSchema.methods.deleteFromCart = function (product) {
     })
 
     this.cart.items = updatedItems;
-
     return this.save();
-}
-
-userSchema.methods.addOrder = function () {
-    // return this.
-
-    //     .then(products => {
-    //         const order = {
-    //             items: products,         // we need a snapshot of products and its information.
-    //             userId: this._id
-    //         }
-    //         return db.collection('orders').insertOne(order)
-    //     })
-    //     .then(result => {
-    //         this.cart = { items: [] };   // emptying the cart.
-    //         return db
-    //             .collection('users')
-    //             .updateOne(
-    //                 { _id: new mongodb.ObjectId(this._id) },
-    //                 { $set: { cart: this.cart } }
-    //             );
-    //     });
 }
 
 module.exports = mongoose.model('User', userSchema);

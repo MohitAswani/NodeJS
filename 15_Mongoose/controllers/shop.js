@@ -74,7 +74,7 @@ exports.postCart = (req, res, next) => {
 
 exports.getOrders = (req, res, next) => {
 
-    // Following is how we make a search by nested query.
+    // Following is how we make a search by nested query by using the '.' (dot) operator.
     
     Order.find({'user.userId':req.user._id})
         .then(orders => {
