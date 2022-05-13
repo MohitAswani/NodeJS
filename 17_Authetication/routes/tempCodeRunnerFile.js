@@ -1,0 +1,1 @@
+const isAuth = require('../middleware/is-auth');

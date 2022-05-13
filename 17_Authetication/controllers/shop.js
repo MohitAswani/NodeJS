@@ -8,7 +8,9 @@ exports.getProducts = (req, res, next) => {
                 prods: products,
                 pageTitle: 'All products',
                 path: '/products',
-                isAuth: req.session.isAuth
+                isAuth: req.session.isAuth,
+                csrfToken: req.csrfToken() // this token will be generated and provided by the csrf middleware.
+                // And to our post request form we will need to pass in our csrf token.
             });
         })
         .catch(err => {
