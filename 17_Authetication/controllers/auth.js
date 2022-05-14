@@ -3,11 +3,10 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 exports.getLogin = (req, res, next) => {
-
     res.render('auth/login', {
         path: '/login',
         pageTitle: 'Login',
-        isAuth: req.session.isAuth
+        errorMessage: req.flash('error')  // this will pull the message from the session and remove it from there.
     });
 }
 
@@ -18,6 +17,12 @@ exports.postLogin = (req, res, next) => {
     User.findOne({ email: email })
         .then(user => {
             if (!user) {
+
+                // Following is how we use the flash middleware on the req object.
+
+                // This flash method will simply take a key under which this message will be stored and then the value.
+
+                req.flash('error','Invalid email or password.');
                 return res.redirect('/login');
             }
 
@@ -38,6 +43,7 @@ exports.postLogin = (req, res, next) => {
                         })
                     }
 
+                    req.flash('error','Invalid email or password.');
                     return res.redirect('/login');
                 })
                 .catch(err => {
@@ -64,7 +70,7 @@ exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
         path: '/signup',
         pageTitle: 'Sign up',
-        isAuth: req.session.isAuth
+        errorMessage:req.flash('error')
     });
 }
 
@@ -75,6 +81,7 @@ exports.postSignup = (req, res, next) => {
     User.findOne({ email: email })
         .then(user => {
             if (user) {
+                req.flash('error','Email already exists');
                 return res.redirect('/signup');    // this will return but it will still go to the next then block.
 
                 // to prevent that we use nested hashing.

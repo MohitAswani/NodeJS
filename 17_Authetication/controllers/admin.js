@@ -7,7 +7,6 @@ exports.getAddProduct = (req, res, next) => {
         path: '/admin/add-product',
         editing: false,
         product: {},
-        isAuth: req.session.isAuth
     });
 };
 
@@ -52,7 +51,6 @@ exports.getEditProduct = (req, res, next) => {
                     path: '/admin/edit-product',
                     editing: true,
                     product: product,
-                    isAuth: req.session.isAuth
                 });
             }
         })
@@ -95,7 +93,6 @@ exports.getProducts = (req, res, next) => {
                 prods: products,
                 pageTitle: 'Admin Products',
                 path: '/admin/products',
-                isAuth: req.session.isAuth
             });
         })
         .catch(err => {

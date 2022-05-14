@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csurf = require('csurf');
+const flash = require('connect-flash');
 
 const User = require('./models/user');
 
@@ -54,6 +55,10 @@ app.use(session({
 // So now any non-get requests this package will look for the existense of csrf toke in our views.
 
 app.use(csrfprotection);
+
+// We need to initialize flash and we must initialize only after we initialize our session.
+
+app.use(flash());
 
 app.set('view engine', 'ejs');
 
