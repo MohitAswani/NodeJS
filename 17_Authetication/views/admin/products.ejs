@@ -26,10 +26,11 @@
                                     </p>
                                 </div>
                                 <div class="card__actions">
-                                    <a href="/admin/edit-product/<%= product._id %>?edit=true" class="btn">Edit</a>
+                                    <a href="/admin/edit-product/<%= product._id %>?edit=true" class="btn bn5">Edit</a>
                                     <form action="/admin/delete-product" method="post">
                                         <input type="hidden" name="id" value="<%=product._id%>">
-                                        <button class="btn" type="submit">Delete</button>
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button class="btn bn5" type="submit">Delete</button>
                                     </form>
                                 </div>
                             </article>

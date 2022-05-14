@@ -8,8 +8,8 @@ exports.getProducts = (req, res, next) => {
                 prods: products,
                 pageTitle: 'All products',
                 path: '/products',
-                isAuth: req.session.isAuth,
-                csrfToken: req.csrfToken() // this token will be generated and provided by the csrf middleware.
+                // isAuth: req.session.isAuth,
+                // csrfToken: req.csrfToken() // this token will be generated and provided by the csrf middleware.
                 // And to our post request form we will need to pass in our csrf token.
             });
         })
@@ -52,12 +52,32 @@ exports.getCart = (req, res, next) => {
     req.user
         .populate('cart.items.productId')  
         .then(user => {
-            res.render('shop/cart', {
-                path: '/cart',
-                pageTitle: 'Your Cart',
-                products: user.cart.items,
-                isAuth: req.session.isAuth
-            })
+            const products=user.cart.items.filter(p=>{
+                return p.productId!==null;
+            });
+
+            if(products.length<user.cart.items.length)
+            {
+                user.cart.items=products;
+                user.save()
+                    .then(result=>{
+                        return res.render('shop/cart', {
+                            path: '/cart',
+                            pageTitle: 'Your Cart',
+                            products: products,
+                            isAuth: req.session.isAuth
+                        })
+                    })
+            }
+            else
+            {
+                res.render('shop/cart', {
+                    path: '/cart',
+                    pageTitle: 'Your Cart',
+                    products: products,
+                    isAuth: req.session.isAuth
+                })
+            }
         })
         .catch(err => {
             console.log(err);
@@ -121,7 +141,7 @@ exports.postOrder = (req, res, next) => {
             });
             const order = new Order({
                 user: {
-                    name: req.user.name,
+                    email: req.user.email,
                     userId: req.user._id
                 },
                 products: products

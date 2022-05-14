@@ -53,7 +53,7 @@ app.use(session({
 
 // So now any non-get requests this package will look for the existense of csrf toke in our views.
 
-app.use(csrfprotection); 
+app.use(csrfprotection);
 
 app.set('view engine', 'ejs');
 
@@ -78,6 +78,19 @@ app.use((req, res, next) => {
     }
 });
 
+// To tell express to pass something to every view that is rendered we do the following.
+
+// To do that we can use the special field provided by express which is the locals field which allows us to set local variables that are passed into the views, local simply because they will only exist in the views in which they are rendered.
+
+// So now for every request that is executed these fields will be set for the views that are rendered.
+
+// But we will still need to pass the _csrf field for every post request.
+
+app.use((req, res, next) => {
+    res.locals.isAuth = req.session.isAuth;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);

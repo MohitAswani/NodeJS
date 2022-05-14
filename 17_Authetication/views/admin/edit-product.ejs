@@ -32,7 +32,9 @@
 
                         <input type="hidden" name="id" id="id" value="<%= product._id %> ">
 
-                        <button class="sub-btn" type="submit">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        
+                        <button class="sub-btn bn5" type="submit">
                                 <% if(editing) {%>Update product<% }else { %> Add Product <% } %>
                         </button>
                     </form>

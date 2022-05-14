@@ -9,17 +9,19 @@
             <ul>
                 <% products.forEach(p=>{ %>
                     <li>
-                        <p><%= p.productId.title %> (<%= p.quantity %>)</p>
+                        <p style="font-size: 1.5rem;"><%= p.productId.title %> (<%= p.quantity %>)</p>
                         <form action="/cart-delete-item" method="post">
                             <input type="hidden" name="id" value="<%= p.productId._id %>"/>
                             <input type="hidden" name="price" value="<%= p.productId.price %>"/>
-                            <button class="btn" type="submit">Delete</button>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button class="btn bn5" type="submit">Delete</button>
                         </form>
                     </li>
                 <% }); %>  
             </ul> 
             <form action="/create-order" method="post" style="display: flex;justify-content: center">
-                <button type="submit" class="btn">Checkout</button>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn bn5">Checkout</button>
             </form>
         <% } else { %>
             <h1>No products in the cart</h1>
