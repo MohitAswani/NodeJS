@@ -11,6 +11,8 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    resetToken:String,   // Not required since this will be generated only when we want to reset our password.
+    resetTokenExpiration:Date,
     cart: {
         items: [{
             productId: {

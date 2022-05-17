@@ -22,7 +22,7 @@ exports.postAddProduct = (req, res, next) => {
     });
 
     product
-        .save()  
+        .save()
         .then(result => {
             console.log('CREATED PRODUCT');
             res.redirect('/admin/products');
@@ -70,15 +70,21 @@ exports.postEditProduct = (req, res, next) => {
 
     Product.findById(id)
         .then(product => {
+
+            // We prevent the user from editing the product he didnot create.
+            if (product.userId.toString() !== req.user._id.toString()) {        
+                return res.redirect('/');
+            }
+
             product.title = title;
             product.price = price;
             product.description = description;
             product.image = image;
-            return product.save();
-        })
-        .then(result => {
-            console.log('UPDATED PRODUCT');
-            res.redirect('/admin/products');
+            return product.save()
+                .then(result => {
+                    console.log('UPDATED PRODUCT');
+                    res.redirect('/admin/products');
+                })
         })
         .catch(err => {
             console.log(err);
@@ -86,7 +92,10 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-    Product.find()
+
+    // We restrict only the user who added these products to edit and delete them.
+
+    Product.find({ userId: req.user._id })
         .populate('userId', 'name')
         .then(products => {
             res.render('admin/products', {
@@ -106,7 +115,8 @@ exports.postDeleteProduct = (req, res, next) => {
     let { id } = req.body;
     id = id.trim();
 
-    Product.deleteOne({ _id: new mongodb.ObjectId(id) })
+    // We prevent the user from deleting the product he didnot create.
+    Product.deleteOne({_id:id,userId:req.user._id})
         .then(() => {
             console.log("PRODUCT DELETED");
             res.redirect('/admin/products');
