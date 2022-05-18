@@ -14,18 +14,36 @@
                 <% } %> 
                 <div class="form_container">
                     <form class="login-form"
-                        action="/signup" method="post">
+                        action="/signup" method="post">  <!-- We can add novalidate to stop frontend validation to check backend validation -->
                         <div class="form-control">
                             <label for="email">Email</label>
-                            <input type="email" name="email" id="email">
+                            <input 
+                                class="<%= validationErrors.find(e=> e.param==='email' ) ? 'invalid': '' %>"
+                                type="email" 
+                                name="email" 
+                                id="email" 
+                                value="<%= oldInput.email %>"
+                                required>
                         </div>
                         <div class="form-control">
                             <label for="password">Password</label>
-                            <input type="password" name="password" id="password">
+                            <input 
+                            class="<%= validationErrors.find(e=> e.param==='password' ) ? 'invalid': '' %>"
+                            type="password" 
+                            name="password" 
+                            id="password" 
+                            value="<%= oldInput.password %>"
+                            required>
                         </div>
                         <div class="form-control">
                             <label for="confirm-password">Confirm Password</label>
-                            <input type="password" name="confirm_password" id="confirm_password">
+                            <input 
+                            class="<%= validationErrors.find(e=> e.param==='confirm_password' ) ? 'invalid': '' %>"
+                            type="password" 
+                            name="confirm_password" 
+                            id="confirm_password" 
+                            value="<%= oldInput.confirmPassword %>"
+                            required>
                         </div>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button class="sub-btn bn5" type="submit">
