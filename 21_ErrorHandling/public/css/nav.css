@@ -1,0 +1,131 @@
+.centered {
+    text-align: center;
+}
+
+.main-header {
+    width: 100%;
+    height: 3.5rem;
+    background-color: black;
+    padding: 0.5rem 1rem;
+}
+
+.main-header_nav {
+    height: 100%;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-header_item-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-header_item {
+    margin: 0 1rem;
+    padding: 0;
+}
+
+.main-header_item a {
+    text-decoration: none;
+    color: white;
+}
+
+.main-header_item a:hover,
+.main-header_item a:active,
+.main-header_item a.active {
+    color: chartreuse;
+}
+
+main {
+    padding: 1rem;
+}
+
+.mobile-nav {
+    width: 15rem;
+    height: 100vh;
+    max-width: 90%;
+    position: fixed;
+    left: 0;
+    background: white;
+    z-index: 10;
+    padding: 2rem 1rem 1rem 2rem;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-out;
+}
+
+.mobile-nav.open {
+    transform: translateX(0);
+}
+
+.mobile-nav__item-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-nav__item {
+    margin: 1rem 0rem;
+    padding: 0;
+}
+
+.mobile-nav__item a {
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    padding: 0;
+}
+
+.mobile-nav__item a:active,
+.mobile-nav__item a:hover,
+.mobile-nav__item a.active {
+    color: chartreuse;
+}
+
+#side-menu-toggle {
+    border: 1px solid white;
+    font: inherit;
+    padding: 0.5rem 0.5rem;
+    display: none;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    border-radius: 0.6rem;
+}
+
+#side-menu-toggle:focus {
+    outline: none;
+}
+
+#side-menu-toggle:active,
+#side-menu-toggle:hover {
+    color: chartreuse;
+    border-color: chartreuse;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+    display: none;
+}
+
+@media only screen and (max-width: 720px) {
+
+    .main-header_nav {
+        display: none;
+    }
+
+    #side-menu-toggle {
+        display: block;
+    }
+}
