@@ -1,5 +1,7 @@
 const Product = require('../models/product');
+
 const mongodb = require('mongodb');
+const {validationResult} = require('express-validator');
 
 exports.getAddProduct = (req, res, next) => {
     res.render('admin/edit-product', {
@@ -7,11 +9,33 @@ exports.getAddProduct = (req, res, next) => {
         path: '/admin/add-product',
         editing: false,
         product: {},
+        hasError:false,
+        errorMessage:null,
+        validationErrors:[]
     });
 };
 
 exports.postAddProduct = (req, res, next) => {
     const { title, price, description, image } = req.body;
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty())
+    {
+        return res.status(422).render('admin/edit-product', {
+            pageTitle: 'Add Product',
+            path: '/admin/add-product',
+            editing: false,
+            hasError:true,
+            product: {
+                title:title,
+                price:price,
+                image:image,
+                description:description
+            },
+            errorMessage:errors.array()[0].msg,
+            validationErrors:errors.array()
+        });
+    }
 
     const product = new Product({
         title: title,
@@ -51,6 +75,9 @@ exports.getEditProduct = (req, res, next) => {
                     path: '/admin/edit-product',
                     editing: true,
                     product: product,
+                    hasError:false,
+                    errorMessage:null,
+                    validationErrors:[],
                 });
             }
         })
@@ -67,6 +94,27 @@ exports.postEditProduct = (req, res, next) => {
     price = parseFloat(price);
     description = description.trim();
     image = image.trim();
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty())
+    {
+        return res.status(422).render('admin/edit-product', {
+            pageTitle: 'Edit Product',
+            path: '/admin/edit-product',
+            editing: true,
+            hasError:true,
+            product: {
+                _id:id,
+                title:title,
+                price:price,
+                image:image,
+                description:description
+            },
+            validationErrors:errors.array(),
+            errorMessage:errors.array()[0].msg
+        });
+    }
 
     Product.findById(id)
         .then(product => {
