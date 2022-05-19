@@ -24,14 +24,14 @@ exports.getLogin = (req, res, next) => {
         path: '/login',
         pageTitle: 'Login',
         errorMessage: req.flash('error'),
-        oldInput:{email:'',password:''},
-        validationErrors:[]
+        oldInput: { email: '', password: '' },
+        validationErrors: []
     });
 }
 
 exports.postLogin = (req, res, next) => {
 
-    const { email, password} = req.body;
+    const { email, password } = req.body;
     const errors = validationResult(req);
 
 
@@ -40,8 +40,8 @@ exports.postLogin = (req, res, next) => {
             path: '/login',
             pageTitle: 'Login',
             errorMessage: errors.array()[0].msg,
-            oldInput:{email:email,password:password},
-            validationErrors:errors.array()
+            oldInput: { email: email, password: password },
+            validationErrors: errors.array()
         });
     }
 
@@ -52,8 +52,8 @@ exports.postLogin = (req, res, next) => {
                     path: '/login',
                     pageTitle: 'Login',
                     errorMessage: 'Invalid email or password.',
-                    oldInput:{email:email,password:password},
-                    validationErrors:[]
+                    oldInput: { email: email, password: password },
+                    validationErrors: []
                 });
             }
 
@@ -65,7 +65,9 @@ exports.postLogin = (req, res, next) => {
                         req.session.user = user;
                         return req.session.save(err => {
                             if (err) {
-                                console.log(err);
+                                const error = new Error(err);
+                                error.httpStatusCode = 500;
+                                return next(error);
                             }
                             return res.redirect('/');
                         })
@@ -75,17 +77,21 @@ exports.postLogin = (req, res, next) => {
                         path: '/login',
                         pageTitle: 'Login',
                         errorMessage: 'Invalid email or password.',
-                        oldInput:{email:email,password:password},
-                        validationErrors:[]
+                        oldInput: { email: email, password: password },
+                        validationErrors: []
                     });
                 })
                 .catch(err => {
-                    console.log(err);
+                    const error = new Error(err);
+                    error.httpStatusCode = 500;
+                    return next(error);
                 })
 
         })
         .catch(err => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         });
 }
 
@@ -93,7 +99,9 @@ exports.postLogout = (req, res, next) => {
 
     req.session.destroy((err) => {
         if (err) {
-            console.log(err);
+            const error=new Error(err);
+            error.httpStatusCode= 500;
+            return next(error);
         }
         res.redirect('/');
     });
@@ -149,7 +157,9 @@ exports.postSignup = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         })
 
 }
@@ -194,7 +204,9 @@ exports.postReset = (req, res, next) => {
                 });
             })
             .catch(err => {
-                console.log(err);
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
             })
     })
 }
@@ -220,7 +232,9 @@ exports.getNewPassword = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         })
 
 }
@@ -254,6 +268,8 @@ exports.postNewPassword = (req, res, next) => {
             res.redirect('/login');
         })
         .catch(err => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         })
 }
