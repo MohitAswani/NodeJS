@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const fileHelper = require('../util/file');
 
 const { validationResult } = require('express-validator');
 const { default: mongoose } = require('mongoose');
@@ -21,7 +22,7 @@ exports.postAddProduct = (req, res, next) => {
     // will return a stream of data which is how a file is typically sent to our server so that it can sent efficient is its big. And this is a collection of data in a buffer which gives us a way of working with the stream data.
     const image = req.file;
 
-    if(!image){
+    if (!image) {
         return res.status(422).render('admin/edit-product', {
             pageTitle: 'Add Product',
             path: '/admin/add-product',
@@ -147,8 +148,14 @@ exports.postEditProduct = (req, res, next) => {
             product.title = title;
             product.price = price;
             product.description = description;
-            if(image){
-                product.image=image.path;
+            if (image) {
+
+                // This will delete the file and we don't care about its result therefore we don't pass in a callback and carry out some operation.
+
+                fileHelper.deleteFile(product.image);
+
+
+                product.image = image.path;
             }
             return product.save()
                 .then(result => {
@@ -187,7 +194,14 @@ exports.postDeleteProduct = (req, res, next) => {
     let { id } = req.body;
     id = id.trim();
 
-    Product.deleteOne({ _id: id, userId: req.user._id })
+    Product.findById(id)
+        .then(product => {
+            if (!product) {
+                return next(new Error('Product not found.'));
+            }
+            fileHelper.deleteFile(product.image);
+            return Product.deleteOne({ _id: id, userId: req.user._id })
+        })
         .then(() => {
             console.log("PRODUCT DELETED");
             res.redirect('/admin/products');
@@ -197,4 +211,5 @@ exports.postDeleteProduct = (req, res, next) => {
             error.httpStatusCode = 500;
             return next(error);
         });
+
 };

@@ -160,6 +160,12 @@ app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
 app.use((error, req, res, next) => {
+
+    if(error.httpStatusCode===404)
+    {
+        return res.status(404).render('404', { pageTitle: 'Page Not found', path: {} });
+    }
+
     res.status(500).render('500', {
         pageTitle: 'Server errror',
         path: '/500',

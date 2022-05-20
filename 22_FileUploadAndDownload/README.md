@@ -13,3 +13,9 @@
 * Mutler will be looking for request with mixed type of data and will then be able to parse both text and binary data.
 
 * Once we upload the files to the server we need to server these files and here we server them statically by making the images folder public and then statically loading the images in HTML files.
+
+## PDF generation :
+
+* To create PDF we use a tool called PDFKit. It is super powerful but it is written in coffee script which is not supported by node.
+
+* 

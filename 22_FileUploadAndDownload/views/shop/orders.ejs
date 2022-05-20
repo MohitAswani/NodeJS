@@ -8,17 +8,16 @@
             <ul>
                 <% orders.forEach(order=>{ %> 
                     <li>
-                        <h1>
-                            # <%= order._id %> 
-                        </h1>
+                        <h1 style="display: inline-block;"># <%= order._id %></h1> - <a href="/orders/<%= order._id %>" target="_blank">Invoice</a>
                         <ul>
                             <% order.products.forEach(item=>{ %>
-                                <li><%= item.product.title %> (<%= item.quantity %>)</li>
+                                <li><%= item.product.title %> (<%= item.quantity %>) </li>
                             <% }); %>  
                         </ul>
                     </li>
                 <% }); %> 
             </ul>
+            
         <% } else { %>
             <h1>Nothing there!</h1>
         <% } %>   
