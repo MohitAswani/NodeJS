@@ -1,4 +1,5 @@
 const path = require('path');
+const crypto = require('crypto');
 
 require('dotenv').config();
 const express = require('express');
@@ -8,6 +9,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csurf = require('csurf');
 const flash = require('connect-flash');
+const multer = require('multer');
 
 const User = require('./models/user');
 
@@ -29,8 +31,69 @@ const store = new MongoDBStore({
 
 const csrfprotection = csurf({});
 
+// To configure the storage of a file we can setup configure a storage object.
+
+// We use the diskStorage function provided by multer , which is a storage engine which we can use with multer and here we can pass in a js object to configure it.
+
+// It takes two keys, it takes the destination and it takes the file name.
+
+// And these are two function which multer will call for incoming files and these function then control how that file is handled regarding the place where we store it and regarding the name.
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // the destination function takes in req,file and a callback which we have to call once we are done setting up that destination,
+
+        // error is null and destination is the name of the destination.
+        cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+
+        // But since we are defining our own filename function multer will not create a random hash.
+
+        // cb(null,file.filename+'-'+file.originalname);
+
+        // so we use crypto generate a random hash.
+
+        crypto.randomBytes(16, (err, buf) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                cb(null, buf.toString('hex') + '-' + file.originalname);
+            }
+        });
+    }
+});
+
+const fileFilter = (req, file, cb) => {   // function to filter the files
+
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+        cb(null, true);   // accept the file
+    }
+    else {
+        cb(null, false);  // reject the file 
+    }
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// this is the name input html tag where we upload our file.
+
+// we can pass in some options to multer and one of the option is the dest option.
+
+// This dest option will tell multer to turn the buffer back into binary data and store it in the path we mention.
+
+// But that file as of yet has random hash name,does not have a file extention and is not recognized as an image.
+
+// But if we add png to its name we can see it as an image so we need to store it in a specific way.
+
+// Then we inform multer we want to use the defined storage engine.
+
+// So now we store the file and now we should validate our files.
+
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
+
 app.use(cookieParser());
 
 app.use(session({
@@ -55,32 +118,29 @@ app.set('views', 'views');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// we now server the images folder too.
+
+// we need to add '/images' to the below static path as express assumes that the files in the images folder are served as if they were in the root folder.
+
+// So we tell express that if we have a request that goes to '/images' then serve these files statically.
+
+app.use('/images',express.static(path.join(__dirname, 'images')));  
+
 app.use((req, res, next) => {
-    // Outside of async code we just throw the error and express will use the error handling middleware using next(error).
-
-    // Inside of async code we need to use the next(error) function to handle the error.
-
-    // throw new Error('Sync error');   
-
-    if(!req.session.user){       // for the case when session doesn't exist.
-        return next();           // we need to return next so that the rest of the function is not executed.
+    if (!req.session.user) {
+        return next();
     }
 
     User.findById(req.session.user._id)
         .then(user => {
-            throw new Error('Dummy');
-            if (!user) {         // for the case when user doesn't exist.
+            if (!user) {
                 return next();
             }
             req.user = user;
             next();
         })
         .catch(err => {
-            next(new Error(err));    
-            
-            // when we do have a error we throw it and express js has a special way of taking care of such errors.
-
-            // Throwing an error will not lead to express error middleware.
+            next(new Error(err));
         });
 
 });
@@ -95,30 +155,17 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
-app.get('/500',errorController.get500);
+app.get('/500', errorController.get500);
 
-app.use(errorController.get404);   // catch all middleware to catch unknown requests.
+app.use(errorController.get404);
 
-// Special middleware which will be called when error passed in to next.
-
-// Below is a special middleware which will handle errors and it takes in 4 argument will error as one of the arguments.
-
-// If we have more than one error handling middleware then will execute from top to bottom just like normal middleware.
-
-app.use((error,req,res,next)=>{
-
-    // We can use the extra info provided by the error object to make a better sense of the error.
-
-    // res.status(error.httpStatusCode).render();
-
-    // Since we want error handling app.js as well so we can't just redirect to /500 since that will lead to an infinite loop of error, hence we must render the page here itself.
-
-    res.status(500).render('500', { 
-        pageTitle: 'Server errror', 
+app.use((error, req, res, next) => {
+    res.status(500).render('500', {
+        pageTitle: 'Server errror',
         path: '/500',
-        isAuth:req.session.isAuth
+        isAuth: req.session.isAuth
     });
-});                         
+});
 
 mongoose.connect(MONGODB_URI)
     .then(result => {

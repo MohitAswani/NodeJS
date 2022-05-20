@@ -16,7 +16,27 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-    const { title, price, description, image } = req.body;
+    const { title, price, description } = req.body;
+
+    // will return a stream of data which is how a file is typically sent to our server so that it can sent efficient is its big. And this is a collection of data in a buffer which gives us a way of working with the stream data.
+    const image = req.file;
+
+    if(!image){
+        return res.status(422).render('admin/edit-product', {
+            pageTitle: 'Add Product',
+            path: '/admin/add-product',
+            editing: false,
+            hasError: true,
+            product: {
+                title: title,
+                price: price,
+                description: description
+            },
+            errorMessage: 'Attached file is not an image.',
+            validationErrors: []
+        });
+    }
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -28,7 +48,6 @@ exports.postAddProduct = (req, res, next) => {
             product: {
                 title: title,
                 price: price,
-                image: image,
                 description: description
             },
             errorMessage: errors.array()[0].msg,
@@ -36,11 +55,13 @@ exports.postAddProduct = (req, res, next) => {
         });
     }
 
+    const imageUrl = image.path;
+
     const product = new Product({
         title: title,
         price: price,
         description: description,
-        image: image,
+        image: imageUrl,
         userId: req.user._id
     });
 
@@ -91,12 +112,12 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
     let id = req.body.id
-    let { title, price, description, image } = req.body;
+    let { title, price, description } = req.body;
     id = id.trim();
     title = title.trim();
     price = parseFloat(price);
     description = description.trim();
-    image = image.trim();
+    let image = req.file;
 
     const errors = validationResult(req);
 
@@ -110,7 +131,6 @@ exports.postEditProduct = (req, res, next) => {
                 _id: id,
                 title: title,
                 price: price,
-                image: image,
                 description: description
             },
             validationErrors: errors.array(),
@@ -124,11 +144,12 @@ exports.postEditProduct = (req, res, next) => {
             if (product.userId.toString() !== req.user._id.toString()) {
                 return res.redirect('/');
             }
-
             product.title = title;
             product.price = price;
             product.description = description;
-            product.image = image;
+            if(image){
+                product.image=image.path;
+            }
             return product.save()
                 .then(result => {
                     console.log('UPDATED PRODUCT');

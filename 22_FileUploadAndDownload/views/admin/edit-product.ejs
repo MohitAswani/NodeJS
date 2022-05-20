@@ -15,7 +15,7 @@
                 <% } %> 
                 <div class="form_container">
                     <form class="product-form"
-                        action="/admin/<% if(editing) { %>edit-product<% } else { %>add-product<% } %> " method="post">
+                        action="/admin/<% if(editing) { %>edit-product<% } else { %>add-product<% } %> " method="post" enctype="multipart/form-data">
                         <div class="form-control">
                             <label for="title">Title</label>
                             <input class="<%= validationErrors.find(e=> e.param==='title' ) ? 'invalid': '' %>" type="text" name="title" id="title"
@@ -31,10 +31,14 @@
                             <input class="<%= validationErrors.find(e=> e.param==='description' ) ? 'invalid': '' %>" type="text" name="description" id="description"
                                 value="<% if(editing||hasError) { %><%= product.description %><% } %>">
                         </div>
-                        <div class="form-control">
+                        <!-- <div class="form-control">
                             <label for="image">Image-Link</label>
                             <input class="<%= validationErrors.find(e=> e.param==='image' ) ? 'invalid': '' %>" type="text" name="image" id="image"
                                 value="<% if(editing||hasError) { %><%= product.image %><% } %>">
+                        </div> -->
+                        <div class="form-control">
+                            <label for="image">Image</label>
+                            <input type="file" name="image" id="image">
                         </div>
 
                         <input type="hidden" name="id" id="id" value="<% if(editing) { %><%= product._id %><% } %>">
