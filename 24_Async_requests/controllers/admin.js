@@ -200,9 +200,13 @@ exports.getProducts = (req, res, next) => {
 
 };
 
-exports.postDeleteProduct = (req, res, next) => {
-    let { id } = req.body;
+exports.deleteProduct = (req, res, next) => {
+    
+    // Delete requests are not allowed to have a body so we extract the id using param.
+
+    let  id  = req.params.productId;
     id = id.trim();
+
 
     Product.findById(id)
         .then(product => {
@@ -214,12 +218,12 @@ exports.postDeleteProduct = (req, res, next) => {
         })
         .then(() => {
             console.log("PRODUCT DELETED");
-            res.redirect('/admin/products');
-        })
+
+            // In the json function we can pass a normal JS object and it will be convert to normal JSON object.
+            res.status(200).json({message:'Success!'});
+        }) 
         .catch(err => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error);
+            res.status(500).json({message:'Deleting product failed!'});
         });
 
 };
