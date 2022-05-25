@@ -1,0 +1,192 @@
+@font-face {
+  font-family: Cyber;
+  src: url("https://assets.codepen.io/605876/Blender-Pro-Bold.otf");
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Cyber', sans-serif;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+.card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.card__header,
+.card__content {
+  padding: 1rem;
+}
+
+.card__header h1,
+.card__content h1,
+.card__content h2,
+.card__content p {
+  margin: 0;
+}
+
+.card__image img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+}
+
+.card__actions {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.card__actions button,
+.card__actions a {
+  margin: 0 0.25rem;
+}
+
+.btn {
+  font: inherit;
+  border: 2px solid chartreuse;
+  color: white;
+  background: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:active {
+  color: chartreuse;
+}
+
+.product-item {
+  margin: 10px;
+  border-radius: 20px;
+}
+
+.bn5 {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+}
+
+.bn5:before {
+  content: "";
+  background: linear-gradient(45deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000);
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowingbn5 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowingbn5 {
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 400% 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.bn5:active {
+  color: #000;
+}
+
+.bn5:active:after {
+  background: transparent;
+}
+
+.bn5:hover:before {
+  opacity: 1;
+}
+
+.bn5:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #191919;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+.user-message{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.user-message h4{
+  text-align: center;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-style: bold;
+  margin-bottom: 0rem;
+}
+
+.user-message--error h4{
+  border:2px solid rgb(228, 114, 114);
+  background: rgb(220, 180, 180);
+}
+
+.pagination{
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.pagination a{
+  text-decoration: none;
+  color: white;
+  padding: 0.5rem;
+  border: 2px solid black;
+  margin: 0 1rem;
+  text-align: center;
+}
+
+.pagination a:hover,
+.pagination a:active,
+.pagination a.active{
+  font-size: 1.4rem;
+  color:chartreuse;
+}
+
