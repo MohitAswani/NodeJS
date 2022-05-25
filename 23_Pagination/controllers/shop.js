@@ -6,13 +6,29 @@ const PDFDocument = require('pdfkit');
 const Product = require('../models/product');
 const Order = require('../models/order');
 
+const ITEMS_PER_PAGE = require('../util/constants');
+
 exports.getProducts = (req, res, next) => {
-    Product.find()
+    const page = parseInt(req.query.page) || 1;
+    let totalItems;
+
+    Product.find().countDocuments().then(numProducts => {
+        totalItems = numProducts;
+        return Product.find()
+            .skip((page - 1) * ITEMS_PER_PAGE)
+            .limit(ITEMS_PER_PAGE)
+    })
         .then(products => {
-            res.render('shop/product-list', {
+            res.render('shop/product-list.ejs', {
                 prods: products,
-                pageTitle: 'All products',
+                pageTitle: 'Shop from shop.js',
                 path: '/products',
+                currentPage: page,
+                hasNextPage: ITEMS_PER_PAGE * parseInt(page) < totalItems,
+                hasPreviousPage: page > 1,
+                nextPage: page + 1,
+                previousPage: page - 1,
+                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
             });
         })
         .catch(err => {
@@ -39,12 +55,34 @@ exports.getProduct = (req, res, next) => {
 }
 
 exports.getIndex = (req, res, next) => {
-    Product.find()
+
+    const page = parseInt(req.query.page) || 1;  // adding a + will convert it to int
+
+    // We use the skip function on a mongoose cursor , and find returns a cursor , to skip x amount of items.
+
+    // We also limit the amount of items we retrieve so we set that to items per page.
+
+    // countDocuments function will return the count of the number of documents.
+
+    let totalItems;
+
+    Product.find().countDocuments().then(numProducts => {
+        totalItems = numProducts;
+        return Product.find()
+            .skip((page - 1) * ITEMS_PER_PAGE)
+            .limit(ITEMS_PER_PAGE)
+    })
         .then(products => {
-            res.render('shop/product-list', {
+            res.render('shop/index.ejs', {
                 prods: products,
                 pageTitle: 'Shop from shop.js',
                 path: '/',
+                currentPage: page,
+                hasNextPage: ITEMS_PER_PAGE * parseInt(page) < totalItems,
+                hasPreviousPage: page > 1,
+                nextPage: page + 1,
+                previousPage: page - 1,
+                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
             });
         })
         .catch(err => {
@@ -204,10 +242,10 @@ exports.getInvoice = (req, res, next) => {
 
             pdfDoc.moveDown(1);
 
-            let totalPrice= 0;
+            let totalPrice = 0;
 
             order.products.forEach(p => {
-                totalPrice+=p.quantity*p.product.price;
+                totalPrice += p.quantity * p.product.price;
                 pdfDoc.fontSize(14).text(`${p.product.title} - ${p.quantity} x  $ ${p.product.price}`);
             });
 
@@ -216,7 +254,7 @@ exports.getInvoice = (req, res, next) => {
             pdfDoc.text('-----------------------------------');
 
             pdfDoc.moveDown(1);
-            
+
             pdfDoc.fontSize(18).text(`Total price : ${totalPrice}`);
 
             pdfDoc.end();
