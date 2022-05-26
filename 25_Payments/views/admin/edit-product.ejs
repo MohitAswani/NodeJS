@@ -22,7 +22,7 @@
                                 value="<% if(editing||hasError) { %><%= product.title %><% } %>">
                         </div>
                         <div class="form-control">
-                            <label for="price">Price</label>
+                            <label for="price">Price(₹)</label>
                             <input class="<%= validationErrors.find(e=> e.param==='price' ) ? 'invalid': '' %>" type="number" step="any" name="price" id="price"
                                 value="<% if(editing||hasError) { %><%= product.price %><% } %>">
                         </div>

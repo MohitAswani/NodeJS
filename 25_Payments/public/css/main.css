@@ -150,13 +150,13 @@ body {
   border-radius: 10px;
 }
 
-.user-message{
+.user-message {
   display: flex;
   justify-content: center;
   width: 100%;
 }
 
-.user-message h4{
+.user-message h4 {
   text-align: center;
   padding: 1rem 2rem;
   border-radius: 1rem;
@@ -164,17 +164,17 @@ body {
   margin-bottom: 0rem;
 }
 
-.user-message--error h4{
-  border:2px solid rgb(228, 114, 114);
+.user-message--error h4 {
+  border: 2px solid rgb(228, 114, 114);
   background: rgb(220, 180, 180);
 }
 
-.pagination{
+.pagination {
   text-align: center;
   margin-top: 2rem;
 }
 
-.pagination a{
+.pagination a {
   text-decoration: none;
   color: white;
   padding: 0.5rem;
@@ -185,8 +185,28 @@ body {
 
 .pagination a:hover,
 .pagination a:active,
-.pagination a.active{
+.pagination a.active {
   font-size: 1.4rem;
-  color:chartreuse;
+  color: chartreuse;
 }
 
+.cart-list-items {
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 95%;
+  margin: 1% 2%;
+}
+
+.cart-list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}

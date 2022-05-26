@@ -3,6 +3,7 @@ const fileHelper = require('../util/file');
 
 const { validationResult } = require('express-validator');
 const { default: mongoose } = require('mongoose');
+const stripe = require('stripe')(process.env.TEST_SECRET_KEY);
 
 const ITEMS_PER_PAGE = require('../util/constants');
 
@@ -58,24 +59,47 @@ exports.postAddProduct = (req, res, next) => {
 
     const imageUrl = image.path;
 
-    const product = new Product({
-        title: title,
-        price: price,
-        description: description,
-        image: imageUrl,
-        userId: req.user._id
-    });
+    stripe.products.create({
+        name: title,
+    })
+        .then(productObj => {
+            return stripe.prices.create({
+                unit_amount_decimal: parseFloat(price) * 100,
+                currency: 'inr',
+                product: productObj.id,
+            });
+        })
+        .then(priceObj => {
+            const product = new Product({
+                title: title,
+                price: price,
+                description: description,
+                image: imageUrl,
+                userId: req.user._id,
+                stripeProductId: priceObj.product,
+                stripePriceId: priceObj.id
+            });
 
-    product
-        .save()
-        .then(result => {
-            console.log('CREATED PRODUCT');
-            res.redirect('/admin/products');
-        }).catch(err => {
+            product
+                .save()
+                .then(result => {
+                    console.log('CREATED PRODUCT');
+                    res.redirect('/admin/products');
+                }).catch(err => {
+                    const error = new Error(err);
+                    error.httpStatusCode = 500;
+                    return next(error);
+                });
+        })
+        .catch(err => {
             const error = new Error(err);
             error.httpStatusCode = 500;
             return next(error);
-        });
+        })
+
+
+
+
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -145,19 +169,48 @@ exports.postEditProduct = (req, res, next) => {
             if (product.userId.toString() !== req.user._id.toString()) {
                 return res.redirect('/');
             }
+
             product.title = title;
             product.price = price;
             product.description = description;
+
             if (image) {
                 fileHelper.deleteFile(product.image);
-
-
                 product.image = image.path;
             }
-            return product.save()
+
+            return stripe.prices.update(
+                product.stripePriceId,
+                { active: false }
+            )
+                .then(result => {
+                    return stripe.prices.create({
+                        unit_amount_decimal: parseFloat(price) * 100,
+                        currency: 'inr',
+                        product: product.stripeProductId,
+                        active: true
+                    })
+                })
+                .then(priceObj => {
+                    product.stripePriceId = priceObj.id;
+                    return stripe.products.update(
+                        product.stripeProductId,
+                        {
+                            name: title
+                        }
+                    );
+                })
+                .then(productObj => {
+                    return product.save();
+                })
                 .then(result => {
                     console.log('UPDATED PRODUCT');
                     res.redirect('/admin/products');
+                })
+                .catch(err => {
+                    const error = new Error(err);
+                    error.httpStatusCode = 500;
+                    return next(error);
                 })
         })
         .catch(err => {
@@ -201,7 +254,7 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.deleteProduct = (req, res, next) => {
-    let  id  = req.params.productId;
+    let id = req.params.productId;
     id = id.trim();
 
 
@@ -211,14 +264,21 @@ exports.deleteProduct = (req, res, next) => {
                 return next(new Error('Product not found.'));
             }
             fileHelper.deleteFile(product.image);
+            return stripe.products.update(
+                product.stripeProductId,
+                { active: false }
+            );
+        })
+        .then(result => {
             return Product.deleteOne({ _id: id, userId: req.user._id })
         })
         .then(() => {
             console.log("PRODUCT DELETED");
-            res.status(200).json({message:'Success!'});
-        }) 
+            res.status(200).json({ message: 'Success!' });
+        })
         .catch(err => {
-            res.status(500).json({message:'Deleting product failed!'});
+            console.log(err);
+            res.status(500).json({ message: 'Deleting product failed!' });
         });
 
 };

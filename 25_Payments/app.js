@@ -122,6 +122,8 @@ app.use(errorController.get404);
 
 app.use((error, req, res, next) => {
 
+    console.log(error);
+
     if(error.httpStatusCode===404)
     {
         return res.status(404).render('404', { pageTitle: 'Page Not found', path: {} });
