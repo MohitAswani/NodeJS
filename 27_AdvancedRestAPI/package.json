@@ -1,0 +1,15 @@
+{
+  "name": "advrestapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "author": "Mohit Aswani",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
