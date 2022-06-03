@@ -20,7 +20,7 @@ router.post('/post',
             .isLength({ min: 5 }),
         body('content')
             .trim()
-            .isLength({ min: 5 })
+            .isLength({ min: 7 })
     ],
     feedController.postPost);
 
