@@ -19,3 +19,13 @@
 * So the client will send that token and client cannot fake the token since its generated with a particular algorithm is very hard to crack.
 
 * ![](2022-06-02-18-00-26.png)
+
+## JWT:
+
+* To pass our jwt token to our server we add it as header in the requests.
+
+* Also for the headers to be read we need to add our Header key to the 'Access-Control-Allow-Headers' in the server. So that this header is allowed to be access by the server.
+
+## Module summary :
+
+* ![](2022-06-03-11-39-05.png)
