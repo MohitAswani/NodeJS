@@ -72,7 +72,40 @@ app.use((error, req, res, next) => {
 mongoose
     .connect(process.env.MONGO_DB_CONNECTION_URI)
     .then(result => {
-        app.listen(8080);
+        const server=app.listen(8080);  // listen function returns a server
+
+        // We setup our socket io connections similar to the routes and since both use a different protocol they wont interfere with each other.
+
+        // This package exposes a function which requires our created server as an argument.
+
+        // And websockets are built up on HTTP and since our sever uses HTTP we use that server to setup our websocket connection.
+
+        // const io = require('socket.io')(server,{
+        //     cors:{
+        //         origin:'*',
+        //     }
+        // });
+        
+        // We can use the io to define a couple of event listeners.
+
+        // Below is an event when a new client connects to us. The function get the connection/socket which connected to us.
+
+        // To connect the client we need to add it to our frontend.
+
+        // So now we are using the socket.js file to init the socket.We do to so to allow other files to access the io object too.
+
+        const io = require('./socket').init(server,{
+            cors:{
+                origin:'*',
+            }
+        });
+
+        io.on('connection',socket=>{
+            console.log(socket.id);
+            console.log('Client connected');
+        });
+
+        // To be able to reuse the same IO object that manages the same connection we create a new file.
     })
     .catch(err => {
         console.log(err);
