@@ -5,11 +5,13 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const { graphqlHTTP } = require('express-graphql');
+
+const graphqlSchema = require('./graphql/schema');
+const graphqlResolver = require('./graphql/resolvers');
+
 
 const app = express();
-
-const feedRoutes = require('./routes/feed');
-const authRoutes = require('./routes/auth');
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -53,8 +55,38 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/feed', feedRoutes);
-app.use('/auth', authRoutes);
+// Adding graphql request handlers.
+
+// We apply this to /graphql , and we can change it.
+
+// We dont limit this to post request.
+
+// We use the graphqlHttp function and we pass in a js object to configure it.
+
+// And it needs two items to work: 1) schema , 2) rootValue(points to our resolver).
+
+/* 
+
+Following is an example of a graphQL query : 
+    {
+        "query":"{ hello { text views } }"
+    }
+
+This will fetch us only the required data and will do the filtering on the server itself.
+
+*/
+
+// To test our graphql apis we can set the graphiql options in the graphqlHTTP as true.
+
+// This gives us a special tool and that is the reason we are not only listening to post requests.
+
+// To test we must add a query even if we dont add the implementation
+
+app.use('/graphql', graphqlHTTP({
+    schema: graphqlSchema,
+    rootValue: graphqlResolver,
+    graphiql:true
+}));
 
 app.use((error, req, res, next) => {
 
@@ -64,7 +96,7 @@ app.use((error, req, res, next) => {
     const data = error.data;
     res.status(status).json({
         message: message,
-        data:data
+        data: data
     })
 })
 
@@ -72,19 +104,7 @@ app.use((error, req, res, next) => {
 mongoose
     .connect(process.env.MONGO_DB_CONNECTION_URI)
     .then(result => {
-        const server=app.listen(8080); 
-
-        const io = require('./socket').init(server,{
-            cors:{
-                origin:'*',
-            }
-        });
-
-        io.on('connection',socket=>{
-            console.log(socket.id);
-            console.log('Client connected');
-        });
-
+        app.listen(8080);
     })
     .catch(err => {
         console.log(err);

@@ -39,3 +39,5 @@
 * ![](2022-06-08-22-34-03.png)
 
 * We will use some third party libraries for parsing the request. 
+
+* To add graphql we install two packages : 'graphql' and 'express-graphql'
