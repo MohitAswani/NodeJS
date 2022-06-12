@@ -5,13 +5,11 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const multer = require('multer');
-const { graphqlHTTP } = require('express-graphql');
-
-const graphqlSchema = require('./graphql/schema');
-const graphqlResolver = require('./graphql/resolvers');
-
 
 const app = express();
+
+const feedRoutes = require('./routes/feed');
+const authRoutes = require('./routes/auth');
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -55,38 +53,8 @@ app.use((req, res, next) => {
     next();
 })
 
-// Adding graphql request handlers.
-
-// We apply this to /graphql , and we can change it.
-
-// We dont limit this to post request.
-
-// We use the graphqlHttp function and we pass in a js object to configure it.
-
-// And it needs two items to work: 1) schema , 2) rootValue(points to our resolver).
-
-/* 
-
-Following is an example of a graphQL query : 
-    {
-        "query":"{ hello { text views } }"
-    }
-
-This will fetch us only the required data and will do the filtering on the server itself.
-
-*/
-
-// To test our graphql apis we can set the graphiql options in the graphqlHTTP as true.
-
-// This gives us a special tool and that is the reason we are not only listening to post requests.
-
-// To test we must add a query even if we dont add the implementation
-
-app.use('/graphql', graphqlHTTP({
-    schema: graphqlSchema,
-    rootValue: graphqlResolver,
-    graphiql:true
-}));
+app.use('/feed', feedRoutes);
+app.use('/auth', authRoutes);
 
 app.use((error, req, res, next) => {
 
@@ -96,15 +64,48 @@ app.use((error, req, res, next) => {
     const data = error.data;
     res.status(status).json({
         message: message,
-        data: data
+        data:data
     })
 })
 
-
+// we can directly add the name of the database to the connection uri.
 mongoose
     .connect(process.env.MONGO_DB_CONNECTION_URI)
     .then(result => {
-        app.listen(8080);
+        const server=app.listen(8080);  // listen function returns a server
+
+        // We setup our socket io connections similar to the routes and since both use a different protocol they wont interfere with each other.
+
+        // This package exposes a function which requires our created server as an argument.
+
+        // And websockets are built up on HTTP and since our sever uses HTTP we use that server to setup our websocket connection.
+
+        // const io = require('socket.io')(server,{
+        //     cors:{
+        //         origin:'*',
+        //     }
+        // });
+        
+        // We can use the io to define a couple of event listeners.
+
+        // Below is an event when a new client connects to us. The function get the connection/socket which connected to us.
+
+        // To connect the client we need to add it to our frontend.
+
+        // So now we are using the socket.js file to init the socket.We do to so to allow other files to access the io object too.
+
+        const io = require('./socket').init(server,{
+            cors:{
+                origin:'*',
+            }
+        });
+
+        io.on('connection',socket=>{
+            console.log(socket.id);
+            console.log('Client connected');
+        });
+
+        // To be able to reuse the same IO object that manages the same connection we create a new file.
     })
     .catch(err => {
         console.log(err);
