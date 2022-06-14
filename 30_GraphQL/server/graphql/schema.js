@@ -2,7 +2,7 @@
 
 // We import the buildSchema function which allows us to build the schema which can then be parsed by graphql.
 
-const { buildSchema } = require('graphql');
+const { buildSchema } = require("graphql");
 
 // Return the schema object.
 
@@ -20,16 +20,15 @@ const { buildSchema } = require('graphql');
 //         views: Int!
 //     }
 
-
 //     type RootQuery{
-//         hello: TestData!       
+//         hello: TestData!
 //     }
 
 //     schema {
 //         query: RootQuery
 //     }
 
-// `);   
+// `);
 
 // In the below schema we are adding mutation.
 
@@ -51,7 +50,7 @@ const { buildSchema } = require('graphql');
 
 // So we move our validation part in resolvers.
 
-module.exports=buildSchema(`
+module.exports = buildSchema(`
     type Post{
         _id:ID!
         title:String!
@@ -71,18 +70,37 @@ module.exports=buildSchema(`
         posts:[Post!]!
     }
 
+    type AuthData {
+        token:String!
+        userId:String!
+    }
+
+    type PostData {
+        posts:[Post!]!
+        totalPosts:Int!
+    }
+
     input UserInputData {
         email:String!
         name:String!
         password:String!
     }
 
+    input PostInputData {
+        title:String!
+        content:String!
+        imageUrl:String!
+    }
+
     type RootMutation {
         createUser(userInput:UserInputData):User!
+        createPost(postInput:PostInputData):Post!
     }
 
     type RootQuery {
-        hello: String
+        login(email:String!,password:String): AuthData!
+        posts(page:Int!):PostData
+        post(id:ID!):Post!
     }
 
     schema {

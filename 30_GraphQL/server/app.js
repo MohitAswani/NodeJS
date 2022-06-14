@@ -10,6 +10,8 @@ const { graphqlHTTP } = require('express-graphql');
 const graphqlSchema = require('./graphql/schema');
 const graphqlResolvers = require('./graphql/resolvers');
 
+const auth = require('./middleware/auth');
+
 
 const app = express();
 
@@ -18,15 +20,15 @@ const fileStorage = multer.diskStorage({
         cb(null, 'images/');
     },
     filename: (req, file, cb) => {
-        Crypto.randomBytes(16, (err, buff) => {
+        Crypto.randomBytes(8, (err, buff) => {
             if (err) {
                 err.statusCode = 500;
                 throw err;
             }
 
-            const filename = buff.toString('hex') + '-' + file.originalname;
+            const filename = 'file-'+buff.toString('hex') + '-' + file.originalname;
             cb(null, filename);
-        })
+        });
     }
 });
 
@@ -54,11 +56,30 @@ app.use((req, res, next) => {
 
     // SO THE OPTIONS REQUEST WILL NEVER MAKE IT TO THE GRAPHQL HANDLER.
 
-    if(req.method==='OPTIONS'){
+    if (req.method === 'OPTIONS') {
         return res.sendStatus(200);
     }
 
     next();
+});
+
+// We use this to check that the user is authenticated.
+
+app.use(auth);
+
+app.put('/post-image', (req, res, next) => {
+    if (!req.isAuth) {
+        throw new Error('Not authenticated!');
+    }
+    if (!req.file) {
+        return res.status(200).json({ message: 'No file provided!' });
+    }
+    if (req.body.oldPath) {
+        clearImage(req.body.oldPath);
+    }
+    return res
+        .status(201)
+        .json({ message: 'File stored.', filePath: req.file.filename });
 });
 
 // For better testing set graphiql to true and this give us a special tools which allows us to see all the mutations and queries in a graphql setup.
@@ -121,3 +142,9 @@ mongoose
     .catch(err => {
         console.log(err);
     });
+
+
+const clearImage = filePath => {
+    filePath = path.join(__dirname, '..', filePath);
+    fs.unlink(filePath, err => console.log(err));
+};

@@ -63,3 +63,9 @@
 ## Validation :
 
 * To validate the user input we use validator function which is what express-validator used as well.
+
+## File upload : 
+
+* To upload file we add a normal put route which stores the image on the server and then returns the name of the file to graphql query.
+
+* And then redirects to the rest of the graphql request to store the information.
