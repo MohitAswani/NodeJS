@@ -69,3 +69,7 @@
 * To upload file we add a normal put route which stores the image on the server and then returns the name of the file to graphql query.
 
 * And then redirects to the rest of the graphql request to store the information.
+
+## Module summary: 
+
+* ![](2022-06-15-01-11-41.png)
