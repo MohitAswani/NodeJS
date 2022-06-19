@@ -42,7 +42,7 @@ const { buildSchema } = require("graphql");
 
 // Also to define id's graphql has a special type called ID.
 
-// graphQl doesn't have data type for date so we are going to use strings for dates.
+// graphQl doesn't have data type for data so we are going to use strings for dates.
 
 // To tell graphql we have an array of some type we enclose it in [].
 

@@ -4,7 +4,7 @@
 
 * ![](2022-06-12-14-57-40.png)
 
-* If we only want to get some selective data from a request then we can following one of the following approaches : 
+* If we only want to get some selective data from a request then we can follow one of the following approaches : 
 
     * Create new endpoints for each data we want to get. But this will lead to many endpoints.
 
