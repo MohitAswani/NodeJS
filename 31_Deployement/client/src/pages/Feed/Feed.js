@@ -68,20 +68,6 @@ class Feed extends Component {
       this.setState({ postPage: page });
     }
 
-    // Whenever we pass a dynamic value to our graphql query, the interpolation syntax works but it is indeed not the recommended way of adding variables into our graphql query , there is better way.
-
-    // Earlier we didnt add the keyword query in our queries, if we would have done that then we would have gotten errors.
-
-    // But now we will add that and we will also add something else , we will give this query a name , a name that does not really make a difference, it does not make it behave differently, it will help in error messages but it will also allow us to do something else.
-
-    // We assign the name and after the name we add parentheses after the name to define which variables this query will use and we create such a variable here with a dollar sign but no curly braces.
-
-    // And this is graphql syntax and will run on the server. This will tell our GraphQL server that we have a query which will use an internal variable.
-
-    // The query must take the argument which we define just above it and it should be after a dollar sign and this tells the graphql server that this part is dynamic, it might change.
-
-    // To add our js variable to our graphql query we add a second property to that query object. And we add a second property called variables. Variable is an object where we can assign values to the variables we pass into our query here.
-
     const graphqlQuery = {
       query: `
       query FetchPosts($page:Int!){
@@ -214,8 +200,6 @@ class Feed extends Component {
       .then((fileResData) => {
         const imageUrl = fileResData.filePath || "undefined";
 
-        // We can also pass in nested data in the object to retrieve only a selective properties of an object.
-
         let graphqlQuery = {
           query: `
             mutation createNewPost($postTitle:String!,$postContent:String!,$postImage:String!){
@@ -263,12 +247,8 @@ class Feed extends Component {
           };
         }
 
-        // Form data will automatically get the headers
         return fetch("http://localhost:8080/graphql", {
           method: "POST",
-          // headers:{
-          //   // 'Content-Type':'application/json'  // we wont use json data coz its text.
-          // },
           body: JSON.stringify(graphqlQuery),
           headers: {
             Authorization: "Bearer " + this.props.token,
@@ -381,11 +361,7 @@ class Feed extends Component {
           throw new Error("Deleting post failed.");
         }
         console.log(resData);
-        this.loadPosts(); // we just reload the posts
-        // this.setState(prevState => {
-        //   const updatedPosts = prevState.posts.filter(p => p._id !== postId);
-        //   return { posts: updatedPosts, postsLoading: false };
-        // });
+        this.loadPosts();
       })
       .catch((err) => {
         console.log(err);

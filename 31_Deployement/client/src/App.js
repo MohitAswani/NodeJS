@@ -60,8 +60,6 @@ class App extends Component {
     event.preventDefault();
     this.setState({ authLoading: true });
 
-    // For a normal query we don't repeat query we just start with our queryname and input args.
-
     const graphqlQuery = {
       query: `
       query UserLogin($email:String!,$password:String!){ 
@@ -100,8 +98,6 @@ class App extends Component {
         }
         console.log(resData);
 
-        // Graphql always returns a object called data which contains a another object with name of the resolver and inside that is our requirred data.
-
         this.setState({
           isAuth: true,
           token: resData.data.login.token,
@@ -130,12 +126,6 @@ class App extends Component {
   signupHandler = (event, authData) => {
     event.preventDefault();
     this.setState({ authLoading: true });
-
-    // The body will now be in the graphql query language.
-
-    // The query key is required even for mutations.
-
-    // We need to have "" around the values or else it will fail.
 
     const graphqlQuery = {
       query: `mutation SignUpUser($email:String!,$name:String!,$password:String!){ createUser(userInput:{email:$email,name:$name,password:$password}){
