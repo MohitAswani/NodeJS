@@ -71,6 +71,7 @@ exports.login = async (req, res, next) => {
         });
 
         res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+        return ;
     } catch (err) {
 
         if (!err.statusCode) {
@@ -78,5 +79,6 @@ exports.login = async (req, res, next) => {
         }
 
         next(err);
+        return err;
     }
 }
