@@ -16,7 +16,7 @@ describe("Auth-middleware", function () {
   // An integration test would be where we test a more complete flow so where we maybe test whether the request is routed correctly and then also the middleware and then also the controller function. But we dont often do that coz its very complex to test.
 
   it("Should throw an error if not authorization header is present", function () {
-    // We are creating a dummy request to check whether the middleware so that we can make sure that it doesn't return anything on get.
+    // We are creating a dummy request to check the middleware so that we can make sure that it doesn't return anything on get.
 
     const req = {
       get: function (headerName) {
@@ -90,7 +90,7 @@ describe("Auth-middleware", function () {
     // So now verify is in the end , an object which cannot be executed but can be configured and returns allow us to configure what this function should return.
     jwt.verify.returns({ userId: "abc" });
 
-    // So now whenever we can jwt verify we will call the stub method.
+    // So now whenever we verify the jwt token we will call the stub method.
 
     authMiddleware(req, {}, () => {});
     expect(req).to.have.property("userId");

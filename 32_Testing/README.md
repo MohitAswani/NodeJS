@@ -47,3 +47,21 @@
 * Another complexity for testing controllers is that the controllers are async function becuase the execution of that code will not happen synchronously and that means by default our expectation won't work the way we expect it to work.
 
 * So we want to check the promise that is returned from async controller.For that we make a tiny adjusment and we add a return to our controller which will implicitly return a promise we have hidden behind async await in the controller.
+
+## Tips regarding testings :
+
+* Test only the code that you write.
+
+* If something is too large to test , break it down into smaller functions and test the smaller more testable functions.
+
+* Google is your friend.
+
+* Analyse the code we you are testing and then think about how you need to configure your inputs or your dependencies for the test scenario to become real.
+
+## Documentation :
+
+* Mocha : https://mochajs.org/
+
+* Chai : https://chaijs.com/
+
+* Sinon :  https://sinonjs.org/
