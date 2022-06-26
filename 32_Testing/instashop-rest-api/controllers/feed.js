@@ -195,11 +195,13 @@ exports.deletePost = async (req, res, next) => {
         await user.save();
 
         res.status(200).json({ message: 'Deleted post' });
+        return ;
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
         next(err);
+        return err;
     }
 }
 
